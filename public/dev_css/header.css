@@ -1,0 +1,60 @@
+header {
+	position: relative;
+}
+header {
+	margin-top: 70px;
+}
+/* advertisement stripe styles */
+header #adStripe {
+	color: #000000;
+}
+.mobile {
+	display: block;
+}
+.nav>li.desktop>a, 
+.desktop {
+	display: none;
+}
+@media only screen and (min-width: 767px) {
+	header {
+		margin-top: 90px;
+	}
+	.mobile {
+		display: none;
+	}
+	.nav>li.desktop>a, 
+	.desktop {
+		display: block;
+	}
+	#adStripe a {
+		color: #000000;
+	}
+	#genresMenu .col-md-2 {
+		padding: 0px;
+	}
+}
+#adStripe p,
+#adStripe a {
+	font-size: 16px;
+	line-height: 1em;
+	letter-spacing: 1.1px;
+	font-weight: 500;
+}
+#adStripe a {
+	color: #000000;
+}
+/*Genres menu*/
+#genres {
+  cursor: pointer;
+}
+#genresMenu {
+	background-color: #fafafa;
+	display: none;
+}
+#genresMenu .col-md-2 {
+  padding: 15px;
+}
+#genresMenu .col-md-2 a {
+	color: #000000;
+	font-size: 16px;
+}

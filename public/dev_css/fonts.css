@@ -1,0 +1,41 @@
+h3 {
+	font-size: 25px;
+	line-height: 1.5em;
+	letter-spacing: 1.2px;
+	text-transform: capitalize;
+}
+.line-through {
+	text-decoration: line-through;
+}
+.advertisement p, 
+.advertisement li {
+	padding: 5px 0;
+	letter-spacing: 1.1px;
+	line-height: 1em;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.page-header {
+	margin: 20px 0;
+}
+ul>li {
+	list-style: none;
+}
+/*Text styles*/
+#adStripe>p>a,
+.pagination>li>a, 
+a {
+  letter-spacing: 1.1px;
+  color: #000000;
+}
+.pagination>li>a:hover,
+.pagination>li>a:active,
+a:hover,
+a:active {
+  color: #000000;
+  text-decoration: none;
+}
+a#genres2 {
+	color: #ffffff;
+}

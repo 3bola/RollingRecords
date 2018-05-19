@@ -1,0 +1,88 @@
+<% layout('admin') -%>
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="page-header">
+				<h2><i class="fa fa-user-circle-o" aria-hidden="true"></i> Käyttäjähallinta</h2>
+			</div>
+		</div>
+	</div><!-- end of the row -->
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="col-md-6 col-xs-6">
+				<h4><strong><i class="fa fa-user fa-x2" aria-hidden="true"></i></strong> <%= found_user.name.lastname %>, <%= found_user.name.firstname %></h4>
+				<p><strong><i class="fa fa-envelope fa-x2" aria-hidden="true"></i></strong> <%= found_user.email %></p>
+				<p><strong><i class="fa fa-mobile-phone fa-x2" aria-hidden="true"></i></strong> <%= found_user.mobileNumber %></p>
+				<p><strong><i class="fa fa-address-card fa-x2" aria-hidden="true"></i></strong> Osoite:</p>
+				<p><%= found_user.completeAddress.address %></p>
+				<p><%= found_user.completeAddress.zipcode %></p>
+				<p><%= found_user.completeAddress.city %></p>
+			</div>
+			<div class="col-md-6 col-xs-6">
+				<h4>Bonus järjestelmä</h4>
+				<p>Leimat:</p>
+				<p>Kertyneet leimat: <%= found_user.bonus_system.stamps %> kpl</p>
+				<p>Leimojen päivitys:</p>
+				<form action="/admin/user/<%= found_user._id %>?_method=PUT" method="POST">
+					<div class="form-group">
+						<label for="stamps">Leimat *</label>
+						<input type="number" name="stamps" placeholder="Päivitä leimat *" class="form-control" rquired>
+					</div>
+					<label class="radio-inline">
+  						<input type="radio" name="method" id="inlineRadio1" value="add"> Lisää
+					</label>
+					<label class="radio-inline">
+	 			 		<input type="radio" name="method" id="inlineRadio2" value="exclude"> Vähennä
+					</label>
+					<div class="form-group">
+						<button type="submit" class="btn btn-success">Päivitä</button>
+					</div>
+				</form>
+				<hr>
+				<p>Kupongit</p>
+				<% found_user.bonus_system.coupons.forEach(function(coupon) { %>
+					<div class="well <%= coupon.valid ? 'success green' : 'danger red' %>"><p><%= coupon.valid ? 'Käytettävissä: ' : `Käytetty: ` %> <strong>1 kpl, Arvo: <%= coupon.value %>,00 €</strong></p></div>
+				<% }); %>
+				<hr>
+			</div>
+		</div> 
+	</div><!-- end of the row -->
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="page-header">
+				<h4>Tilaushistoria</h4>
+			</div>
+			<% found_user.history.forEach(function(order){ %> 
+				<a href="/admin/user/<%= found_user._id %>/order/<%= order._id %>">
+					<div class="media">
+						<div class="col-md-2">
+							<div class="media-left">
+    							<img class="media-object img-responsive" src="/images/order.png" alt="tilaus">
+							</div>
+						</div>
+						<div class="col-md-8">
+							<div class="media-body">
+								<h4 class="media-heading">Tilaus numero: <%= order.order_number%></h4>
+								<p><strong>Kokonaishinta:</strong> <strong><%= order.setPriceTag(order.payment.total_price_including_tax) %></strong> | <strong>Maksutapa: <%= order.payment_method %></strong></p>
+								<p><em>Tilauksen tila: </em><strong><%= order.status === "pending" ? "Vastaanotettu" : order.status === "recieved" ? "Käsittelyssä" : order.status === "delivered" ? "Toimitettu" : "Valmis noudettavaksi" %></strong></p>
+  								<p><em><strong>Viimeksi muokattu:</strong> <%= moment(order.updatedAt).format('DD.MMMM.YYYY hh:mm a') %></em></p>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<a href="/admin/user/<%= found_user._id %>/order/<%= order._id %>" class="btn btn-info">Katsele</a>
+						</div>
+					</div>
+				</a>
+			<% }); %>
+			<hr>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<h4>Käyttäjätilin asetukset</h4>
+			<form action="/admin/user/<%= found_user._id %>?_method=DELETE" method="POST">
+				<button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Poista käyttäjätili</button>
+			</form>
+		</div>
+	</div><!-- end of the row -->
+</div>

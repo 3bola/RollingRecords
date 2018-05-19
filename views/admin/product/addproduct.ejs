@@ -1,0 +1,173 @@
+<% layout('admin') -%>
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="page-header">
+				<h2><i class="fa fa-plus-circle" aria-hidden="true"></i> Lisää Tuote <small class="pull-right"><%= moment(Date.now()).locale("fi").format('DD.MM.YYYY') %></small></h2>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3" id="errorMsg"></div>
+		<div class="col-md-6 col-md-offset-3" id="successMsg"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<form id="productCreateForm" action="/admin/product" method="POST" enctype="multipart/form-data">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="category">Kategoria *</label>
+						<select id="category" class="form-control" name="category">
+              				<option value="Uudet">Uudet LP:t</option>
+              				<option value="Käytetyt">Käytetyt LP:t</option>
+              				<option value="Tulevat">Tulevat</option>
+              				<option value="Tarjoukset">Tarjoukset</option>
+              				<option value="Oheistarvikkeet">Oheistarvikkeet</option>
+            			</select>
+					</div>
+					<div class="form-group oheistarvikkeet">
+						<label for="productName">Tuotteen nimi *</label>
+						<input class="form-control nameField" type="text" name="title2" id="productName" placeholder="Tuotteen nimi"/>
+					</div>
+					<div class="form-group lp">
+						<label for="title">Artisti *</label>
+						<input class="form-control nameField" type="text" name="title" id="title" placeholder="Artisti" required/>
+					</div>
+					<div class="form-group">
+						<label for="quantity">Määrä *</label>
+						<input type="number" name="quantity" id="quantity" class="form-control" required/>
+					</div>
+					<div class="form-group lp">
+						<label for="label">Levyyhtiö</label>
+						<input type="text" name="label" id="label" class="form-control" placeholder="Levyyhtiö" required/>
+					</div>
+					<div class="form-group lp">
+						<label for="edition">Painos</label>
+						<input type="text" name="edition" id="edition" class="form-control" placeholder="Painos"/>
+					</div>
+					<div class="form-group lp">
+						<label for="year">Tuotantovuosi</label>
+						<input type="number" name="year" id="year" class="form-control" />
+					</div>
+					<div class="condition form-group lp">
+						<label for="conditionCovers">Kansien kuntoluokka *</label>
+						<select class="form-control" name="conditionCovers" id="conditionCovers">
+              				<option value="">Kansien kuntoluokka *</option>
+              				<option value="VG+">VG+</option>
+              				<option value="EX-">EX-</option>
+              				<option value="EX">EX</option>
+              				<option value="EX+">EX+</option>
+              				<option value="NEARMINT">NEAR MINT</option>
+            			</select>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group lp">
+						<label for="genre">Genre *</label>
+						<select class="form-control" name="genre" id="genre" required>
+							<option value="">Valitse Genre</option>
+              				<option value="rock">Rock</option>
+              				<option value="kotimainen">Kotimainen</option>
+              				<option value="svart-records">Svart Records</option>
+              				<option value="punk-hardcore">Punk/ Hardcore</option>
+              				<option value="blues">Blues</option>
+              				<option value="jazz">Jazz</option>
+              				<option value="funk-soul">Funk/ Soul</option>
+              				<option value="heavy-metal">Heavy/ Metal</option>
+              				<option value="indie-alternative">Indie & Alternative</option>
+              				<option value="rock-roll">Rock and Roll</option>
+              				<option value="hipHop">Hip Hop</option>
+              				<option value="electronic">Electronic</option>
+              				<option value="folk-country">Folk & Country</option>
+              				<option value="oheistarvikkeet">Oheistarvikkeet</option>
+						</select>
+					</div>
+					<div class="form-group lp">
+						<label for="name">Albumi *</label>
+						<input type="text" name="name" id="name" class="form-control nameField" placeholder="Albumi" required/>
+					</div>
+					<div class="form-group">
+						<label for="location">Myymälä *</label>
+						<select class="form-control" name="location" id="location">
+              				<option value="Helsinki, Sörnäinen">Helsinki, Sörnäinen</option>
+              				<option value="Tampere, Keskusta">Tampere, Keskusta</option>
+						</select>
+					</div>
+					<div class="discount form-group lp">
+						<label for="discountedPrice">Alennettu hinta</label>
+						<input type="number" step="0.01" min="0" name="discountedPrice" id="discountedPrice" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="price">Hinta *</label>
+						<input type="number" step="0.01" min="0" name="unit_price" id="price" class="form-control" required/> 
+					</div>
+					<div class="form-group">
+						<label for="ean">Ean koodi</label>
+						<input type="string" name="ean" id="ean" placeholder="Tuotteen ean koodi" class="form-control" /> 
+					</div>
+					<div class="form-group">
+						<label for="vat">Arvonlisävero</label>
+						<select class="form-control" name="vat" required>
+              				<option value="0.24">24%</option>
+              				<option value="0.1"> 10%</option>
+              			</select>
+					</div>
+					<div class="releaseDate form-group lp">
+						<label for="releasedate">Julkaisupäivä</label>
+						<input type="date" name="releasedate" id="releasedate" class="form-control">
+					</div>
+					<div class="condition form-group lp">
+						<label for="conditionDisk">Levyn kuntoluokka *</label>
+						<select class="form-control" name="conditionDisk" id="conditionDisk">
+              				<option value="">Levyn kuntoluokka *</option>
+              				<option value="VG+">VG+</option>
+              				<option value="EX-">EX-</option>
+              				<option value="EX">EX</option>
+              				<option value="EX+">EX+</option>
+             	 			<option value="NEARMINT">NEAR MINT</option>
+            			</select>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group tracklist lp">
+						<label for="tracklist">Kappaleet</label>
+						<textarea id="tracklist" name="tracklist" rows="6" class="form-control"></textarea>
+					</div>
+					<div class="oheistarvikkeet form-group">
+						<label for="description">Kuvaus</label>
+						<textarea id="description" name="description" rows="6" class="form-control"></textarea>
+					</div>
+					<div class="lp form-group">
+						<label for="additional_info">Lisätietoa</label>
+						<textarea id="additional_info" name="additional_info" rows="6" class="form-control"></textarea>
+					</div>
+					<div class="row">
+						<div class="form-group">
+              				<label for="cover" class="custom-file-upload" id="imageInput">
+                				<span class="glyphicon glyphicon-cloud-upload"></span>
+                				valitse kuva
+              				</label>
+              				<input class="form-control" type="file" name="image" id="cover"  accept="image/*" required />
+            			</div>
+					</div>
+					<div class="row">
+						<div id="imgPreviewContainer">
+              				<img id="imgPreview" src="" alt="">
+           				</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 col-md-offset-3">
+							<div id="imgBtns" class="btn-group">
+                				<button type="reset" class="btn btn-warning" id="resetImage">Kumoa valinta</button>
+                				<button type="button" class="btn btn-success" id="submitImage">Lähetä kuva</button>
+              				</div>
+						</div>
+					</div>
+					<div class="row">
+						<button class="btn btn-block btn-success btn-lg" type="submit" id="submitBtn">Luo tuote</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

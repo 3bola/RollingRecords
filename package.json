@@ -1,0 +1,76 @@
+{
+  "name": "rrtmi",
+  "version": "1.0.0",
+  "description": "ecommerce-app",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js",
+    "postinstall": "./node_modules/bower/bin/bower install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Romkin7/rrtmi-ecommerce.git"
+  },
+  "keywords": [
+    "NodeJS",
+    "ExpressJS",
+    "MongoDB",
+    "AJAX",
+    "with",
+    "EJS"
+  ],
+  "author": "Roman Tuomisto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Romkin7/rrtmi-ecommerce/issues"
+  },
+  "homepage": "https://github.com/Romkin7/rrtmi-ecommerce#readme",
+  "dependencies": {
+    "async": "^2.6.0",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.18.2",
+    "bower": "*",
+    "cloudinary": "^1.9.1",
+    "compression": "^1.7.2",
+    "connect-mongo": "^2.0.0",
+    "cookie-parser": "^1.4.3",
+    "csurf": "^1.9.0",
+    "ejs": "^2.5.7",
+    "ejs-mate": "^2.3.0",
+    "express": "^4.16.2",
+    "express-flash": "0.0.2",
+    "express-sanitizer": "^1.0.2",
+    "express-session": "^1.15.6",
+    "file-type": "^7.2.0",
+    "helmet": "^3.12.0",
+    "indicative": "^4.0.3",
+    "jimp": "^0.2.28",
+    "klarna-checkout": "^1.3.0",
+    "method-override": "^2.3.10",
+    "moment": "^2.19.2",
+    "mongoose": "^4.13.4",
+    "morgan": "^1.9.0",
+    "multer": "^1.3.0",
+    "nodemailer": "^4.6.0",
+    "nodemailer-mailgun-transport": "^1.3.6",
+    "nodemailer-sendgrid-transport": "^0.2.0",
+    "nodemon": "^1.14.11",
+    "npm": "^5.6.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "read-chunk": "^2.1.0",
+    "request": "^2.83.0",
+    "sanitize-html": "^1.16.3",
+    "serve-favicon": "^2.4.5",
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {
+    "dotenv": "^4.0.0",
+    "gulp": "^3.9.1",
+    "gulp-cssmin": "^0.2.0",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-uglify": "^3.0.0",
+    "uglify-es": "^3.3.9"
+  }
+}

@@ -1,0 +1,103 @@
+<% layout('checkout') -%>
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="page-header">
+					<h2>3. Maksu</h2>
+					<ul class="breadcrumb">
+						<li>
+							<% if(user && user.admin.isAdmin) { %>
+							<a class="item" href="/ostoskori/<%= session.cart._id %>">1. Ostoskori</a>
+							<% } else { %>
+							<a class="item">1. Ostoskori</a>
+							<% } %>
+						</li>
+						<li>
+							<% if(user && user.admin.isAdmin) { %>
+							<a class="item" href="/ostoskori/<%= session.cart._id %>/kassa">2. Kassa</a>
+							<% } else { %>
+							<a class="item">2. Kassa</a>
+							<% } %>
+						</li>
+						<li>
+							<% if(user && user.admin.isAdmin) { %>
+							<a class="item bc-active" href="/ostoskori/<%= session.cart._id %>/maksu">3. Maksu</a>
+							<% } else { %>
+							<a class="item bc-active">3. Maksu</a>
+							<% } %>
+						</li>
+						<li>
+							<% if(user && user.admin.isAdmin) { %>
+							<a class="item" href="/ostoskori/<%= session.cart._id %>/vahvistus">4. Vahvistus</a>
+							<% } else { %>
+							<a class="item">4. Vahvistus</a>
+							<% } %>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<input type="hidden" id="delivery_method" value="<%= cart.delivery_cost.name %>">
+				<div class="col-md-6" id="klarna">
+					<% if(cart.delivery_cost.name === "Nouto myymälästä") { %> 
+						<h4>Klarna maksu</h4>
+						<button type="button" class="btn btn-success" id="klarnaCheckoutBtn">Klarna maksu</button>
+					<% } %>
+				</div>
+				<div class="col-md-6" id="payToStore">
+					<h4>Maksu myymälään</h4>
+					<% if(cart.delivery_cost.name === "Nouto myymälästä") { %> 
+						<button type="button" class="btn btn-primary" id="payToStoreBtn">Maksa noutaessa</button>
+					<% } else { %>
+						<p>Maksu myymälään on mahdollista valita, vain jos toimitustapa on <strong>nouto myymälästä</strong>.</p>
+					<% } %>
+					<form id="payToStoreForm" action="/ostoskori/<%= cart._id %>/vahvistus" method="POST">
+						<div class="form-group">
+							<label for="email">Sähköposti *</label>
+							<input type="email" id="email" name="email" class="form-control" placeholder="Sähköposti *" required value="<%= user.email %>"/>
+						</div>
+						<div class="form-group">
+							<label for="phone">Puhelinnumero *</label>
+							<input id="phone" type="tel" class="form-control" name="phone" placeholder="Puhelinnumero *" required value="<%= user.mobileNumber %>"/>
+						</div>
+						<div class="form-group">
+							<label for="firstname">Etunimi *</label>
+							<input type="text" class="form-control" id="firstname" name="firstname" placeholder="Etunimi *" required value="<%= user.name.firstname %>"/>
+						</div>
+						<div class="form-group">
+							<label for="lastname">Sukunimi *</label>
+							<input type="text" class="form-control" id="lastname" name="lastname" placeholder="Sukunimi *" required value="<%= user.name.lastname %>"/>
+						</div>
+						<div class="form-group">
+							<label for="address">Katuosoite</label>
+							<input type="text" class="form-control" id="address" name="address" placeholder="Katuosoite" value="<%= user.completeAddress.address %>"/>
+						</div>
+						<div class="form-group">
+							<label for="zip">Postinumero</label>
+							<input type="text" class="form-control" id="zip" name="zip" placeholder="Postinumero" value="<%= user.completeAddress.zipcode %>"/>
+						</div>
+						<div class="form-group">
+							<label for="city">Kaupunki</label>
+							<input type="text" class="form-control" id="city" name="city" placeholder="Kaupunki" value="<%= user.completeAddress.city %>"/>
+						</div>
+						<input type="hidden" name="payment_method" value="maksu myymälään">
+						<p>Noutopaikka: <strong><%= session.pickup_store %></strong></p>
+						<p>Varausehdot:</p>
+						<div class="checkbox">
+							<label>
+								<input name="billingTerms" id="billingTerms" type="checkbox" required /> Hyväksyn Rolling Records Storen <a href="/kayttoehdot">varausehdot</a>.
+							</label>
+						</div>
+						<button type="reset" class="btn btn-warning" id="cancelBtn">Peruuta</button>
+						<button class="btn btn-success" type="submit" id="submitOrderBtn">Lähetä tilaus</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<a href="/ostoskori/<%= cart._id%>/kassa"><i class="fa fa-chevron-left" aria-hidden="true"></i> Takaisin kassaan</a>
+	</div>
+</section>

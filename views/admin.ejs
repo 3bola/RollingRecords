@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-118251289-1"></script>
+	<script>
+  		window.dataLayer = window.dataLayer || [];
+  		function gtag(){dataLayer.push(arguments);}
+  		gtag('js', new Date());
+
+  		gtag('config', 'UA-118251289-1');
+	</script>
+	<!-- Meta data tags -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  	<meta name="description" content="Rolling Records Tmi">
+    <meta author="Roman Tuomisto">
+    <!-- Title -->
+	<title>Rolling Records | Hallintapaneeli</title>
+	<!-- Favicons -->
+	<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+	<!-- Google fonts & other custom fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans:200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i&amp;subset=greek,greek-ext,latin-ext" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Rye&amp;subset=latin-ext" rel="stylesheet">
+	<!-- External css libraries -->
+	<link rel="stylesheet" type="text/css" href="/libs/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/libs/bootstrap-social/bootstrap-social.css">
+	<link rel="stylesheet" type="text/css" href="/libs/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/libs/cropper/dist/cropper.min.css" />
+	<!-- Custom css file -->
+	<link rel="stylesheet" type="text/css" href="/css/rrtmi-admin-styles.css">
+	<link rel="stylesheet" type="text/css" href="/css/navbar.css">
+	<link rel="stylesheet" type="text/css" href="/css/header.css">
+	<link rel="stylesheet" type="text/css" href="/css/fonts.css">
+	<link rel="stylesheet" type="text/css" href="/css/footer.css">
+</head>
+<body>
+	<% include ./partials/admin-header %>
+	<div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">
+            	<h4>Etusivu</h4>
+                <li>
+                    <a href="/admin"><i class="fa fa-dashboard fa-fw" aria-hidden="true"></i> Hallintapaneeli</a>
+                </li>
+                <h4>Raportit</h4>
+                <li>
+                    <a href="/admin/reports/graph"><i class="fa fa-bar-chart-o fa-fw"></i> Raportit kaavioina</a>
+                </li>
+                <li>
+                    <a href="/admin/reports/table"><i class="fa fa-table fa-fw"></i> Raportit taulukkoina</a>
+                </li>
+                <h4>Verkkokaupan hallinta</h4>
+                <li>
+                	<h5><i class="fa fa-music" aria-hidden="true"></i> Tuotehallinta</a></h5>
+                </li>
+                <li>
+                	<a href="/admin/product/add"><i class="fa fa-plus-circle" aria-hidden="true"></i> Lisää tuote</a>
+                </li>
+                <li>
+                	<a href="/admin/product?page=1&SortByCreatedAt=-1"><i class="fa fa-edit" aria-hidden="true"></i> Muokkaa tuotteita</a>
+                </li>
+                <li>
+                	<a href="/admin/product?status=archived"><i class="fa fa-archive" aria-hidden="true"></i> Arkisto</a>
+                </li>
+                <li>
+                	<a href="/admin/deliverycost/add"><i class="fa fa-truck" aria-hidden="true"></i> Toimituskulut</a>
+                </li>
+                <h4>Tilaushallinta</h4>
+                <li><a href="/admin/order"><i class="fa fa-clipboard" aria-hidden="true"></i> Näytä tilaukset</a></li>
+                <h4>Asiakashallinta</h4>
+                <li>
+                	<a href="/admin/user"><i class="fa fa-id-badge" aria-hidden="true"></i> Käyttäjähallinta</a>
+                </li>
+                <h4>Verkkokaupan etusivun layout</h4>
+                <li>
+                	<a href="/admin/frontpage"><i class="fa fa-home" aria-hidden="true"></i> Muokkaa etusivua</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.sidebar-collapse -->
+    </div>
+    <div class="page-wrapper">
+		<header>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-10 col-md-offset-1">
+						<% if(error && error.length > 0) { %>
+							<div class="alert alert-danger alert-dismissible fade in" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            						<span aria-hidden="true">&times;</span>
+          						</button>
+								<p><%= error %></p>
+							</div>
+						<% } %>
+						<% if(success && success.length > 0) { %>
+							<div class="alert alert-success alert-dismissible fade in" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            						<span aria-hidden="true">&times;</span>
+          						</button>
+								<p><%= success %></p>
+							</div>
+						<% } %>
+						<div id="success"></div>
+						<div id="error"></div>
+					</div>
+				</div>
+			</div>
+		</header>
+		<section>
+			<%- body -%>
+		</section>
+	</div>
+	<footer>
+		<% include ./partials/footer %>
+	</footer>
+	<!-- Javascript files here -->
+	<script type="text/javascript" src="/libs/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="/libs/d3/d3.min.js"></script>
+	<script type="text/javascript" src="/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+	<!-- libraries -->
+	<script type="text/javascript" src="/libs/moment/min/moment-with-locales.min.js"></script>
+	<script type="text/javascript" src="/libs/cropper/dist/cropper.min.js"></script>
+	<!-- custom javascript files -->
+	<script type="text/javascript" src="/js/d3-chart.js"></script>
+	<script type="text/javascript" src="/js/cropper.js"></script>
+	<script type="text/javascript" src="/js/editCoverCropper.js"></script>
+	<script type="text/javascript" src="/js/product-management.js"></script>
+	<script type="text/javascript" src="/js/validateProductForms.js"></script>
+	<script type="text/javascript" src="/js/adminPanel.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="/js/notification.js"></script>
+</body>
+</html>

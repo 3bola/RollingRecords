@@ -1,0 +1,83 @@
+/*Navbar */
+.btn-inverse {
+  background-color: #222222;
+}
+#menu-toggle,
+#cartLink {
+  padding: 15px 0;
+  color: #ffffff;
+  font-size: 16px;
+  letter-spacing: 1.1px;
+  line-height: 1em;
+}
+#genres {
+  color: #ffffff;
+}
+ .logo {
+    margin: 0;
+    position: relative;
+    top: -9px;
+    left: -9px;
+    width: 100px;
+  }
+/*Navbar collapse */
+.navbar-custom .navbar-collapse {
+    border-color: rgba(255, 255, 255, .02);
+   
+    color: #ffffff;
+}
+.navbar-custom .navbar-toggle {
+    border-color: #fed136;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 12px
+}
+ .navbar-inverse .navbar-nav>li>a {
+  color: #ffffff;
+ }
+@media only screen and (min-width: 767px) {
+  .navbar {
+    font-weight: 400;
+  }
+  .navbar, 
+  .navbar .cnontainer-fluid,
+  .navbar .navbar-header,
+  .navbar .navbar-header a,
+  .navbar .navbar-collapse,
+  .navbar .navbar-nav,
+  .navbar .navbar-nav li,
+  .navbar .navbar-nav li a {
+    height: 90px;
+  }
+  .navbar .navbar-nav li a {
+    font-size: 16px;
+    letter-spacing: 1px;
+    padding-top: 35px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .navbar .navbar-nav .dropdown {
+    padding: 0;
+  }
+  .navbar .navbar-nav .dropdown li {
+    margin-top: 0;
+    padding: 0;
+    height: 30px;
+  }
+  .navbar .navbar-nav .dropdown .divider {
+    height: 5px;
+  }
+  .navbar .navbar-nav .dropdown li a {
+    height: 30px;
+    padding-top: 0px; 
+  }
+  .navbar .navbar-brand {
+    font-family: "Rye", serif;
+  }
+  .navbar-inverse .navbar-nav>li>a {
+    color: #ffffff;
+  }
+  .logo {
+    width: 125px;
+  }
+}

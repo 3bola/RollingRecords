@@ -1,0 +1,131 @@
+<% layout('checkout') -%>
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="page-header">
+				<h2>1. Ostoskori</h2>
+			</div>
+			<ul class="breadcrumb">
+				<li>
+					<% if(user && user.admin.isAdmin) { %>
+						<a class="item bc-active" href="/ostoskori/<%= session.cart._id %>">1. Ostoskori</a>
+					<% } else { %>
+						<a class="item bc-active">1. Ostoskori</a>
+					<% } %>
+				</li>
+				<li>
+					<% if(user && user.admin.isAdmin) { %>
+						<a class="item" href="/ostoskori/<%= session.cart._id %>/kassa">2. Kassa</a>
+					<% } else { %>
+						<a class="item">2. Kassa</a>
+					<% } %>
+				</li>
+				<li>
+					<% if(user && user.admin.isAdmin) { %>
+						<a class="item" href="/ostoskori/<%= session.cart._id %>/maksu">3. Maksu</a>
+					<% } else { %>
+						<a class="item">3. Maksu</a>
+					<% } %>
+				</li>
+				<li>
+					<% if(user && user.admin.isAdmin) { %>
+						<a class="item" href="/ostoskori/<%= session.cart._id %>/vahvistus">4. Vahvistus</a>
+					<% } else { %>
+						<a class="item">4. Vahvistus</a>
+					<% } %>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div id="cartErrorMsg"></div>
+			<div id="cartSuccessMsg"></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<table class="table table-hover table-striped">
+				<thead>
+					<tr>
+						<th class="col-md-5">Tuote</th>
+						<th class="col-md-1">Genre</th>
+						<th class="col-md-1">Hinta</th>
+						<th class="col-md-3">Määrä</th>
+						<th class="col-md-2">Yhteensä</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% cart.items.forEach(function(item) { %>
+						<tr class="cartItem product-row">
+							<td class="col-md-5">
+								<div class="col-md-4">
+									<a href="/lp:t/<%= item.item._id %>">
+										<div class="thumbnail">
+											<img class="img-responsive" src="<%= item.item.cover %>" alt="<%= item.item.title %>, <%= item.item.name%>" />
+										</div>	
+									</a>
+								</div>
+								<div class="col-md-8">
+									<p><%= item.item.title %></p>
+									<h4><%=item.item.name %></h4>
+								</div>
+							</td>
+							<td class="col-md-1"><%= item.item.genre %></td>
+							<td class="col-md-1">
+								<p><%= Number(item.item.discountedPrice) ? cart.setPriceTag(item.item.discountedPrice) : cart.setPriceTag(item.item.unit_price) %></p>
+							</td>
+							<td class="col-md-3">
+								<div class="btn-group btn-group-sm cart-buttons" role="group">
+									<button item_id="<%= item._id %>" type="button" class="btn btn-default btn-sm btn-to-toggle editQuanityMinus">-</button>
+									<button item_id="<%= item._id %>" type="button" class="btn btn-default btn-sm btn-to-toggle editQuantityPlus">+</button>
+									<input type="hidden" class="productId" value="<%= item.item._id %>">
+									<input type="hidden" class="itemsId" value="<%= item._id %>">
+									<input type="hidden" class="total_quantity" value="<%= item.quantity %>">
+									<input type="hidden" class="quantity_total" value="<%= item.item.total_quantity %>">
+									<input type="hidden" class="tax_amount" value="<%= item.tax_amount%>">
+									<input type="hidden" class="total_tax_amount" value="<%= item.total_tax_amount%>">
+									<input type="hidden" class="unit_price" value="<%= item.item.unit_price %>">
+									<input type="hidden" class="total_unit_price" value="<%= item.total_price_including_tax %>">
+									<input type="hidden" class="product_genre" value="<%= item.item.genre %>">
+									<input type="hidden" class="unit_price_excluding_tax" value="<%= item.item.unit_price_excluding_tax%>">
+									<input type="hidden" class="total_unit_price_excluding_tax" value="<%= item.total_price_excluding_tax%>">
+									<form class="deleteItem" id="removeFromCartForm">
+										<button type="submit" class="btn btn-danger btn-to-toggle btn-sm"><i class="fa fa-times" aria-hidden="true"></i></button>
+									</form>
+								</div>
+							</td>
+							<td class="col-md-1">
+								<p class="totalQuantityToDisplay"><%= item.quantity %> kpl</p>
+								<p class="totalPriceToDisplay"><%= cart.setPriceTag(item.total_price_including_tax) %></p>
+							</td>
+						</tr>
+					<% }); %>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th class="col-md-2">Ostoskori yhteensä</th>
+						<th class="col-md-2">Kokonaismäärä </th>
+						<th class="col-md-2">Veroton hinta</th>
+						<th class="col-md-2">Alv(24%)</th></th>
+						<th class="col-md-4">Hinta sis alv 24%</th>
+					</tr>
+					<tr>
+						<td></td>
+						<td id="cartTotalQuantity"><%= cart.total %> kpl</td>
+						<td id="cartTotalPriceExcludingTax"><%= cart.setPriceTag(cart.total_price_excluding_tax) %></td>
+						<td id="cartTotalTaxAmount"><%= cart.setPriceTag(cart.total_tax_amount) %></td>
+						<td id="cartTotalPriceIncludingTax"><%= cart.setPriceTag(cart.total_price_including_tax) %></td>
+					</tr>
+					<tr>
+						<td><a class="btn btn-default" href="/">Takaisin kauppaan</a></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td><a href="/ostoskori/<%=cart._id%>/kassa" class="btn btn-success">Kassalle</a></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,34 @@
+{
+  "name": "rrtmi",
+  "description": "ecommerce-app",
+  "main": "server.js",
+  "authors": [
+    "Roman Tuomisto"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "NodeJS",
+    "ExpressJS",
+    "MongoDB",
+    "AJAX",
+    "with",
+    "EJS"
+  ],
+  "homepage": "www.rollingrecords.fi",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "font-awesome": "^4.7.0",
+    "moment": "^2.20.1",
+    "cropper": "^3.1.3",
+    "bootstrap-social": "^5.1.1",
+    "d3": "^4.12.2"
+  }
+}

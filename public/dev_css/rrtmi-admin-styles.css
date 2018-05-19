@@ -1,0 +1,188 @@
+/*Text styles*/
+h1:first-letter,
+h2:first-letter,
+h3:first-letter,
+h4:first-letter,
+h5:first-letter,
+h6:first-letter,
+a:first-letter,
+small:first-letter,
+strong:first-letter,
+span:first-letter,
+div:first-letter, 
+td:first-letter {
+ text-transform: capitalize;
+}
+a {
+  letter-spacing: 1.1px;
+  color: #000000;
+}
+a:hover,
+a:active {
+  color: #000000;
+  text-decoration: none;
+}
+.nav-tabs li a {
+  color: #000000;
+}
+.media-body p {
+  margin-bottom: 0;
+}
+h3 {
+  font-size: 22px;
+}
+.green {
+  background-color: lightgreen;
+  border: 1px ridge green;
+}
+.red {
+  background-color: pink;
+  border: 1px ridge red;
+  text-decoration: line-through;
+}
+html, body {
+	font-family: 'Fira Sans', sans-serif;
+}
+header, section {
+	position: relative;
+}
+header {
+	margin-top: 93px;
+}
+section {
+  font-weight: 500;
+	height: 100%;
+	min-height: 100vh;
+  padding: 25px 0; 
+}
+section #social-signin p {
+  margin-top: 15px;
+}
+/*Form styles*/
+.form-control:focus,
+.form-control:active {
+  outline: none !important;
+  background: #f1f1f1;
+}
+.editTrackNameForm,
+.description,
+.condition, 
+.releaseDate,
+.discount,
+.oheistarvikkeet {
+  display: none; 
+}
+.success {
+  background-color: lightgreen;
+  border: 2px ridge green; 
+}
+.error {
+  background-color: pink;
+  border: 2px ridge red; 
+}
+.danger {
+  color: #b22222;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: 1.1px;
+  min-height: 15px;
+}
+/* Image uploader and cropper styles */
+#imagePreviewContainer,
+#imagePreviewContainer .cropper-container {
+  max-height: 700px !important;
+}
+#coverImageInput {
+  display: none;
+}
+#imageButtons {
+  display: none;
+  padding-top: 15px;
+}
+#imgPreviewContainer,
+#imgPreviewContainer .cropper-container {
+  max-height: 600px !important;
+}
+#imgPreview {
+  height: 400px;
+  width: 400px;
+}
+.custom-file-upload {
+    border: 1px ridge #3498db;
+    border-radius: 5px;
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    background: transparent;
+    transition: all 0.2s;
+}
+#cover {
+  display: none;
+  background: transparent;
+  border: 1px ridge #3498db;
+}
+#imgBtns {
+  display: none;
+}
+/*Admin panel styles */
+.productlist {
+  margin: 10px auto;
+}
+#productGrid .danger {
+  background-image: url("../images/loppu.png");
+  background-position: 65% 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.removeTrack,
+.edit-product-buttons form {
+	display: inline;
+}
+.media-list .media-list-item {
+  height: 35px;
+}
+.trackEditInput {
+  width: 80%;
+}
+.sidebar {
+  height: 100%;
+  position: absolute;
+  width: 250px;
+  background: #eeeeee;
+  z-index: 5;
+}
+.sidebar-nav {
+  height: 100%;
+  width: 250px;
+  background: #eeeeee;
+}
+.sidebar #side-menu {
+  padding-top: 43px;
+}
+.page-wrapper {
+    position: inherit;
+    margin: 0 0 0 250px;
+    border-left: 1px solid #e7e7e7;
+}
+/* Notification styles */
+.media, 
+.media .media-left,
+.media .media-body {
+  height: 75px;
+}
+.media .col-md-3 form {
+  display: inline;
+}
+.media {
+  border-radius: 15px;
+  padding: 10px;
+  margin: 5px;
+  background-color: #eeeeee;
+}
+.media img {
+  width: 55px;
+  height: 55px;
+}

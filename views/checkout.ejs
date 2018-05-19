@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-118251289-1"></script>
+	<script>
+  		window.dataLayer = window.dataLayer || [];
+  		function gtag(){dataLayer.push(arguments);}
+  		gtag('js', new Date());
+
+  		gtag('config', 'UA-118251289-1');
+	</script>
+	<!-- Meta data tags -->
+		<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  	<meta name="description" content="Rolling Records Tmi">
+    <meta author="Roman Tuomisto">
+    <!-- Title -->
+	<title>Rolling Records | Ostoskori ja Kassa</title>
+	<!-- Favicons -->
+	<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+	<!-- Google fonts & other custom fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans:200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i&amp;subset=greek,greek-ext,latin-ext" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Rye&amp;subset=latin-ext" rel="stylesheet">
+	<!-- External css libraries -->
+	<link rel="stylesheet" type="text/css" href="/libs/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/libs/bootstrap-social/bootstrap-social.css">
+	<link rel="stylesheet" type="text/css" href="/libs/font-awesome/css/font-awesome.min.css">
+	<!-- Custom css file -->
+	<link rel="stylesheet" type="text/css" href="/css/simple-sidebar.css">
+	<link rel="stylesheet" type="text/css" href="/css/cart.css">
+	<link rel="stylesheet" type="text/css" href="/css/fonts.css">
+	<link rel="stylesheet" type="text/css" href="/css/rrtmi-styles.css">
+	<link rel="stylesheet" type="text/css" href="/css/navbar.css">
+	<link rel="stylesheet" type="text/css" href="/css/header.css">
+	<link rel="stylesheet" type="text/css" href="/css/footer.css">
+</head>
+<body>
+	<% include ./partials/checkout-header %>
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<div class="mobile" id="sidebar-wrapper">
+			<ul class="sidebar-nav">
+				<li>
+					<a href="/lp:t?category=Kaikki&genre=Rock&page=1">Rock</a>
+				</li>
+				<li>
+					<a href="/lp:t?category=Kaikki&genre=Kotimainen&page=1">Kotimainen</a>
+				</li>
+				<li>
+					<a href="/lp:t?category=Kaikki&genre=Heavy-metal&page=1">Heavy & Metal</a>
+				</li>
+				<li>
+					<a href="/lp:t?category=Kaikki&genre=Blues&page=1">Blues</a>
+				</li>
+				<li>
+					<a href="/lp:t?category=Kaikki&genre=Jazz&page=1">Jazz</a>
+				</li>
+				<li>
+					<a href="/lp:t?category=Kaikki&genre=Rock-roll&page=1">Rock and Roll</a>
+				</li>
+				<li>
+					<a href="/lp:t?category=Kaikki&genre=Punk-hardcore&page=1">Punk & Hardcore</a>
+				</li>
+				<li>
+					<a href="/lp:t?category=Kaikki&genre=Svart-records&page=1">Svart Records</a>
+				</li>
+				<li>
+					<a href="/lp:t?category=Kaikki&genre=Funk-soul&page=1">Funk & Soul</a>
+				</li>
+				<li>
+					<a href="/lp:t?category=Kaikki&genre=Indie-alternative&page=1">Indie & Alternative</a>
+				</li>
+				<li>
+					<a href="/lp:t?category=Kaikki&genre=HipHop&page=1">Hip Hop</a>
+				</li>
+				<li>
+					<a href="/lp:t?category=Kaikki&genre=Electronic&page=1">Electronic</a>
+				</li>
+				<li>
+					<a href="/lp:t?category=Kaikki&genre=Folk-country&page=1">Folk & Country</a>
+				</li>
+			</ul>
+		</div>
+		<!-- /#sidebar-wrapper -->
+		<div id="page-content-wrapper">
+			<header>
+			  <div class="container-fluid">
+			    <div class="row">
+			      <div id="genresMenu" class="col-md-10 col-md-offset-1">
+			        <div class="col-md-2 col-sm-4 col-xs-4"><a href="/lp:t?category=Kaikki&genre=Rock&page=1">Rock</a></div>
+			        <div class="col-md-2 col-sm-4 col-xs-4"><a href="/lp:t?category=Kaikki&genre=Kotimainen&page=1">Kotimainen</a></div>
+			        <div class="col-md-2 col-sm-4 col-xs-4"><a href="/lp:t?category=Kaikki&genre=Heavy-metal&page=1">Heavy & Metal</a></div>
+			        <div class="col-md-2 col-sm-4 col-xs-4"><a href="/lp:t?category=Kaikki&genre=Blues&page=1">Blues</a></div>
+			        <div class="col-md-2 col-sm-4 col-xs-4"><a href="/lp:t?category=Kaikki&genre=Jazz&page=1">Jazz</a></div>
+			        <div class="col-md-2 col-sm-4 col-xs-4"><a href="/lp:t?category=Kaikki&genre=Rock-roll&page=1">Rock and Roll</a></div>
+			        <div class="col-md-2 col-sm-4 col-xs-4"><a href="/lp:t?category=Kaikki&genre=Punk-hardcore&page=1">Punk & Hardcore</a></div>
+			        <div class="col-md-2 col-sm-4 col-xs-4"><a href="/lp:t?category=Kaikki&genre=Svart-records&page=1">Svart Records</a></div>
+			        <div class="col-md-2 col-sm-4 col-xs-4"><a href="/lp:t?category=Kaikki&genre=Funk-soul&page=1">Funk & Soul</a></div>
+			        <div class="col-md-2 col-sm-4 col-xs-4"><a href="/lp:t?category=Kaikki&genre=Indie-alternative&page=1">Indie & Alternative</a></div>
+			        <div class="col-md-2 col-sm-4 col-xs-4"><a href="/lp:t?category=Kaikki&genre=HipHop&page=1">Hip Hop</a></div>
+			        <div class="col-md-2 col-sm-4 col-xs-4"><a href="/lp:t?category=Kaikki&genre=Electronic&page=1">Electronic</a></div>
+			        <div class="col-md-2 col-sm-4 col-xs-4"><a href="/lp:t?category=Kaikki&genre=Folk-country&page=1">Folk & Country</a></div>
+			      </div>
+			    </div>
+			    <div class="row">
+			      <div class="col-md-12">
+			        <div class="well well-lg well-info" id="adStripe">
+			          <p class="text-center desktop">Rolling Records tarjoaa kaikille asiakkailleen <strong><a href="/bonusjarjestelma">Bonus Järjestelmän</a></strong></p>
+			          <p class="text-center"><a href="/ostamme-levyja">Oletko luopumassa vanhoista levyistäsi vai haluatko keventää kokoelmaasi, <strong>ONNISTUU!</strong></a></p>
+			        </div>
+			      </div>
+			    </div> 
+			  </div>
+			</header>
+			<!-- Page Content -->
+			<aside>
+				<div class="container">
+					<div class="row">
+						<div class="col-md-10 col-md-offset-1">
+							<% if(error && error.length > 0) { %>
+							<div class="alert alert-danger alert-dismissible fade in" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<p><%= error %></p>
+							</div>
+							<% } %>
+
+							<% if(success && success.length > 0) { %>
+							<div class="alert alert-success alert-dismissible fade in" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<p><%= success %></p>
+							</div>
+							<% } %>
+							<div id="error"></div>
+							<div id="success"></div>
+						</div>
+					</div>
+				</div>
+			</aside>
+			<section>
+				<%- body -%>
+				<input type="hidden" id="cartId" value="<%= session.cart._id%>">
+			</section>
+		</div>
+	</div>
+	<footer>
+		<% include ./partials/footer %>
+	</footer>
+	<!-- Javascript files here -->
+	<script type="text/javascript" src="/libs/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+	<!-- libraries -->
+	<!-- custom javascript files -->
+	<script type="text/javascript" src="/js/bootstrap.bundle.js"></script>
+	<script type="text/javascript" src="/js/validationAndAjax.js"></script>
+	<script type="text/javascript" src="/js/cart.js"></script>
+	<script type="text/javascript" src="/js/checkout.js"></script>
+	<script type="text/javascript" src="/js/klarna.js"></script>
+</body>
+</html>

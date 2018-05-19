@@ -1,0 +1,97 @@
+<% layout('layout') -%>
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="page-header">
+					<h2>Asiakaspalvelu</h2>
+				</div> 
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="col-md-6">
+					<h4>Asiakaspalvelu avoinna </h4>
+					<p>ma-pe: 11-18</p>  
+					<p>la: 11-16</p>
+					<p>su: 12-16</p>
+					<h5>Vastaamme kysymyksiinne tilauksista, varauksista ja tuotteista.</h5>
+					<h5>Autamme mielellämme myös erilaisissa ongelmatilanteissa.</h5>
+					<div class="media">
+						<div class="media-left">
+							<a href="#">
+								<i class="fa fa-phone" aria-hidden="true"></i>
+							</a>
+						</div>
+						<div class="media-body">
+    						<h4 class="media-heading">Puhelimitse:</h4>
+    						<p><strong>+358 50 344 55 39</strong></p>
+  						</div>
+					</div>
+					<div class="media">
+						<div class="media-left">
+							<a href="#">
+								<i class="fa fa-envelope" aria-hidden="true"></i>
+							</a>
+						</div>
+						<div class="media-body">
+							<h4 class="media-heading">Sähköpostitse: </h4>
+							<p><strong>rollingrecords@outlook.com</strong></p>
+						</div>
+					</div>
+					<div class="media">
+						<div class="media-left">
+							<a href="#">
+								<i class="fa fa-list-alt" aria-hidden="true"></i>
+							</a>
+						</div>
+						<div class="media-body">
+							<h4 class="media-heading">Muut vaihtoehdot: </h4>
+							<p>Yhteydenotto onnistuu kätevästi myös ohessa olevalla </p>
+							<p><strong><i class="fa fa-clipboard" aria-hidden="true"></i> Lomakkeella</strong> <!-- tai <a href="#chat" onclick="openChat()"><strong><i class="fa fa-comments" aria-hidden="true"></i> Chatissa</strong></a> --></p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<form action="/asiakaspalvelu" method="POST">
+						<div class="col-md-6 col-sm-12 col-xs-12">
+							<div class="form-group">
+								<label for="full_name">Nimi *</label>
+								<input type="text" name="full_name" id="full_name" class="form-control" required value="<%= user !== undefined ? user.name.firstname : 'Etu- ja sukunimi *'%> <%= user !== undefined ? user.name.lastname : ''%>">
+							</div>
+							<div class="form-group">
+								<label for="email">Sähköposti *</label>
+								<input type="email" name="email" id="email" class="form-control" required value="<%= user !== undefined ? user.email : 'Sähköposti *' %>">
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-12 col-xs-12">
+							<div class="form-group">
+								<label for="subject">Aihe *</label>
+								<select id="subject" class="form-control" name="subject" required>
+									<option value="">Valitse aihe</option>
+              						<option value="Tilaukset&varaukset">Tilaukset ja varaukset</option>
+              						<option value="Tuotteet">Tuotteet</option>
+              						<option value="Ongelmatilanteet">Ongelmatilanteet</option>
+              						<option value="Palaute">Palaute</option>
+            					</select>
+							</div>
+							<div class="form-group">
+								<label for="phone">Puhelinnumero </label>
+								<input type="tel" name="phone" id="phone" class="form-control" required value="<%= user !== undefined ? user.mobileNumber : 'Puhelinumero' %>">  
+							</div>
+						</div>
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="form-group">
+								<label for="message">Viesti *</label>
+								<textarea id="message" rows="7" name="message" class="form-control" required placeholder="Viestisi tulee tähän *"></textarea>
+							</div>
+							<div class="form-group">
+								<button type="submit" class="btn btn-success"><i class="fa fa-envelope" aria-hidden="true"></i> Lähetä</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

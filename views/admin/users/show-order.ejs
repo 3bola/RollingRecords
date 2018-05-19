@@ -1,0 +1,115 @@
+<% layout('admin') -%>
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="page-header">
+				<h2><i class="fa fa-clipboard" aria-hidden="true"></i> Tilausten seuranta</h2>
+			</div>
+		</div>
+	</div><!-- end of the row -->
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="well">
+				<div class="row">
+					<div class="col-md-12">
+						<h3>Tilaus nro. <%= order.order_number %></h3>
+					</div>
+					<div class="col-md-6">
+						<p><strong>Maksajan tiedot:</strong></p>
+						<p>Nimi: <%= order.payees_information.lastname %>, <%= order.payees_information.firstname %></p>
+						<p>Katuosoite: <%= order.client.completeAddress.address %></p>
+						<p>Postinumero: <%= order.client.completeAddress.zipcode %></p>
+						<p>Kaupunki: <%= order.client.completeAddress.city %></p>
+					</div>
+					<div class="col-md-6">
+						<p><strong>Tilauksen tila: </strong><%= order.status === "pending" ? "Vastaanotettu" : order.status === "recieved" ? "Käsittelyssä" : order.status === "delivered" ? "Toimitettu" : "Valmis noudettavaksi" %></p>
+						<p><strong>Maksutapa: </strong><%= order.payment_method %></p>
+						<p><strong>Toimitustapa: </strong><%= order.delivery_method.name %> <%= order.pickup_store %></p>
+						<p><strong>Maksun tilanne: </strong><%= order.paid ? "Maksettu" : "Maksettava" %></p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<p><strong>Tilauksen tiedot:</strong></p>
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>Määrä (kpl)</th>
+									<th>Nimi</th>
+									<th>Kappalehinta (€)</th>
+									<th>Yhteensä (€)</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% order.items.forEach(function(item){ %> 
+								<tr>
+									<td><%= item.quantity %></td>
+									<td><%= item.fullname %></td>
+									<td><%= Number(item.item.discountedPrice) ? order.setPriceTag(item.item.discountedPrice) : order.setPriceTag(item.item.unit_price) %></td>
+									<td><%= order.setPriceTag(item.total_price_including_tax) %></td>
+								</tr>
+								<% }); %>
+								<tr>
+									<td>1</td>
+									<td><%= order.delivery_method.name %></td>
+									<td><%= order.setPriceTag(order.delivery_method.unit_price) %></td>
+									<td><%= order.setPriceTag(order.delivery_method.unit_price) %></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td>Veroton hinta</td>
+									<td><%= order.setPriceTag(order.payment.total_price_excluding_tax) %></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td>Alv 24%</td>
+									<td><%= order.setPriceTag(order.payment.total_tax_amount) %></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td>Lopullinen hinta</td>
+									<td><%= Number.isInteger(order.payment.total_price) ? order.payment.total_price+",00 €" : Number.parseFloat(order.payment.total_price).toFixed(2)+" €"%></td>
+								</tr>
+							</tbody>
+						</table>
+						<p><strong><%= order.paid === false ? "Maksettava:" : "Maksettu:" %> </strong><%= Number.isInteger(order.payment.total_price) ? order.payment.total_price+",00 €" : Number.parseFloat(order.payment.total_price).toFixed(2)+" €"%></p>
+						<p>Mahdolliset tilauksesta kertyvät leimat, lisätään maksun jälkeen.</p>
+						<p>Käyttämättömillä tuotteilla on 14 vrk palautus oikeus.</p>	
+					</div>
+				</div>	
+			</div>
+		</div>
+	</div><!-- end of the row -->
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<a href="/admin/user/<%= user._id %>" class="btn btn-default"><i class="fa fa-chevron-left" aria-hidden="true"></i> Käyttäjän tietoihin</a>
+			<% if(order.klarna_id) { %>
+				<form action="/admin/user/<%= user._id %>/order/<%= order._id %>?_method=PUT" method="POST">
+					<input type="hidden" name="klarna_id" value="<%= order.klarna_id %>">
+					<button type="submit" class="btn btn-default">Lähetetty</button>
+				</form>
+			<% } else { %>
+				<% if(order.status === "done") { %>
+					<form action="/admin/user/<%= user._id %>/order/<%= order._id %>?_method=PATCH" method="POST">
+						<input type="hidden" name="klarna_id" value="<%= order.klarna_id %>">
+						<button type="submit" class="btn btn-default">Merkkaa maksetuksi</button>
+					</form>
+				<% } else if(order.status === "delivered"){ %>
+					<form>
+						<button type="submit" class="btn btn-default" disabled="true">Maksettu ja luovutettu</button>
+					</form>
+				<% } else { %>
+					<form action="/admin/user/<%= user._id %>/order/<%= order._id %>?_method=PUT" method="POST">
+						<input type="hidden" name="klarna_id" value="<%= order.klarna_id %>">
+						<button type="submit" class="btn btn-default">Valmis noudettavaksi</button>
+					</form>
+				<% } %>
+			<% } %>
+			<button class="btn btn-default" alt="print screen" onclick="window.print();">Tulosta</button>
+			<hr>
+		</div>
+	</div>
+</div>

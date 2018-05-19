@@ -1,0 +1,309 @@
+<% layout('layout') -%>
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1 col-sm-12">
+      <div class="page-header">
+        <h1 id="title"><%= title %></h1>
+      </div>
+    </div>
+  </div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2 col-sm-12">
+      <div class="col-md-4 col-sm-12">
+        <% if(category !== "Oheistarvikkeet") { %>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Genret <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="/lp:t?category=<%= category %>&genre=Rock&page=1&&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>">Rock</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=Kotimainen&page=1&&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>">Kotimainen</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=Heavy-metal&page=1&&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>">Heavy & Metal</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=Blues&page=1&&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>">Blues</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=Jazz&page=1&&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>">Jazz</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=Rock-roll&page=1&&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>">Rock and Roll</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=Punk-hardcore&page=1&&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>">Punk & Hardcore</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=Svart-records&page=1&&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>">Svart Records</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=Funk-soul&page=1&&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>">Funk & Soul</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=Indie-alternative&page=1&&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>">Indie & Alternative</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=HipHop&page=1&&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>">Hip Hop</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=Electronic&page=1&&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>">Electronic</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=Folk-country&page=1&&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>">Folk & Country</a></li>
+          </ul>
+        </div>
+        <% } %>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Suodatus <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&SortByCreatedAt=-1">Uusimmat ensin</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&SortByCreatedAt=1">Vanhimmat ensin</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&SortByTitle=1">Aakkosittain Artistin mukaan A - Z</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&SortByTitle=-1">Aakkosittain Artistin mukaan Z - A</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&SortByPrice=-1">Kalleimmat ensin</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&SortByPrice=1">Halvimmat ensin</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&">Hintaväli 10€ - 30€</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&">Hintaväli 30€ - 100€ </a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&">Hintaväli 100€ ja yli</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <form id="searchForm2" class="inline-form" action="/lp:t" method="GET">
+          <div class="form-group col-md-10 col-sm-10 col-xs-10">
+            <input type="search" class="form-control" name="search" placeholder="Hae levyjä..." id="searchTerm">
+            <input type="hidden" name="page" value="1">
+          </div>
+          <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+        </form>
+      </div>
+		</div>
+	</div>
+	<div id="grid" class="rig row">
+		<% products.forEach(function(product) { %>
+			<div class="col-md-3 col-sm-6 col-xs-6">
+				<div class="productBox">
+          <a href="/lp:t/<%= product._id %>">
+              <div class="thumbnail rig-cell">
+                <img src="<%=product.cover%>" class="rig-img img-responsive" />
+                <p class="rig-icon"><i class="fa fa-search-plus" aria-hidden="true"></i></p>
+                <div class="rig-overlay"></div>
+            </div>
+          </a>
+          <div class="thumbnail">
+            <div class="product_grid_header">
+              <h3><%= product.title %></h3>
+              <h4><%= product.name%></h4>
+              <% if(product.category === "Tarjoukset") { %>
+                <h4 class="line-through"><%= product.unit_price %>,00 €</h4>
+              <% } %>
+            </div>
+            <div class="btn-group btn-group-sm cart-buttons" role="group" aria-label="...">
+            <% if(product.total_quantity === 0) { %>
+              <input type="button" class="btn btn-default total_price" value="<%= Number.isInteger(product.unit_price) ? product.unit_price + '.00 €' : product.unit_price + '0 €' %>" />
+              <input type="hidden" class="btn btn-default total_quantity" value="1">
+              <input type="hidden" class="total_unit_price" value="<%= product.unit_price%>">
+              <input type="hidden" value="<%= product.genre %>" class="product_genre">
+              <input type="hidden" class="quantity_total" value="<%= product.total_quantity%>">
+              <input type="hidden" value="<%= product._id%>" class="product_id">
+              <button type="button" class="btn btn-default" disabled="true">Lp ei saatavilla</button>
+            <% } else if(product.category === "Tarjoukset") { %>
+              <input type="hidden" class="btn btn-default total_quantity" value="1">
+              <input type="button" class="btn btn-default" value="-<%= product.getDiscountRate() %>%">
+              <input type="button" class="btn btn-default total_price" value="<%= Number.isInteger(product.discountedPrice) ? product.discountedPrice + '.00 €' : product.discountedPrice + '0 €' %>" />
+              <input type="hidden" class="unit_price" value="<%= product.discountedPrice%>">
+              <input type="hidden" class="total_unit_price" value="<%= product.discountedPrice%>">
+              <input type="hidden" class="tax_amount" value="<%= product.tax%>">
+              <input type="hidden" class="total_tax_amount" value="<%= product.tax%>">
+              <input type="hidden" class="unit_price_excluding_tax" value="<%= product.unit_price_excluding_tax%>">
+              <input type="hidden" class="total_unit_price_excluding_tax" value="<%= product.unit_price_excluding_tax%>">
+              <input type="hidden" class="quantity_total" value="<%= product.total_quantity%>">
+              <input type="hidden" value="<%= product._id%>" class="product_id">
+              <input type="hidden" value="<%= product.genre %>" class="product_genre">
+               <button type="button" class="btn btn-success addToCart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+            <% } else { %>
+              <input type="hidden" class="btn btn-default total_quantity" value="1">
+              <input type="button" class="btn btn-default total_price" value="<%= Number.isInteger(product.unit_price) ? product.unit_price + '.00 €' : product.unit_price + '0 €' %>" />
+              <input type="hidden" class="unit_price" value="<%= product.unit_price%>">
+              <input type="hidden" class="total_unit_price" value="<%= product.unit_price%>">
+              <input type="hidden" class="tax_amount" value="<%= product.tax%>">
+              <input type="hidden" class="total_tax_amount" value="<%= product.tax%>">
+              <input type="hidden" class="unit_price_excluding_tax" value="<%= product.unit_price_excluding_tax%>">
+              <input type="hidden" class="total_unit_price_excluding_tax" value="<%= product.unit_price_excluding_tax%>">
+              <input type="hidden" class="quantity_total" value="<%= product.total_quantity%>">
+              <input type="hidden" value="<%= product._id%>" class="product_id">
+              <input type="hidden" value="<%= product.genre %>" class="product_genre">
+              <% if(product.category === "Tulevat") { %>
+                <button type="button" class="btn btn-warning addToCart"><i class="fa fa-shopping-cart" aria-hidden="true"></i> varaa</button>
+              <% } else { %>
+                <button type="button" class="btn btn-success addToCart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+              <% } %>
+            <% } %>
+            </div>
+					</div>
+				</div>
+				<hr role="separator" class="divider">
+			</div>
+		<% }); %>
+	</div>
+	<div class="desktop row">
+    <div class="col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
+			<nav>
+				<div class="col-md-8 col-md-offset-2 text-center">
+          <p>Sivu <%= pages.current%> / <%= pages.total %> sivusta</p>
+          <p>Tuotteita yhteensä <%= items.total %> kpl</p>
+					<ul class="pagination pagination-lg">
+            <% if(pages.current > 1 && pages.hasPrev === true && search !== "") { %>
+            <li>
+              <a class="btn btn-xs" href="/lp:t?search=<%= search %>&category=<%= category %>&genre=<%= genre %>&page=<%= pages.first %>&search=<%= search %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>" aria-label="Previous">
+                <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <li>
+              <a class="btn btn-xs" href="/lp:t?search=<%= search %>&category=<%= category %>&genre=<%= genre %>&page=<%= pages.prev %>&search=<%= search %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>" aria-label="Previous">
+                <span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <% } if(pages.current === 1 && pages.hasPrev === false) { %>
+            <li>
+              <a class="btn btn-xs disabled" aria-label="Previous">
+                <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <li>
+              <a class="btn btn-xs disabled" aria-label="Previous">
+                <span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <% } else { %>
+            <li>
+              <a class="btn btn-xs" href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=<%= pages.first %>&search=<%= search %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>" aria-label="Previous">
+                <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <li>
+              <a class="btn btn-xs" href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=<%= pages.prev %>&search=<%= search %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>" aria-label="Previous">
+                <span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <% } %>
+            <li>
+              <% pages.visiblePages.forEach(function(page) { %>
+                <% if(search !== "") { %> 
+                <li><a class="btn btn-xs" href="/lp:t?search=<%= search %>&category=<%= category %>&genre=<%= genre %>&page=<%= page %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>"><%= page %></a></li>
+                <% } else { %>
+                <li><a class="btn btn-xs" href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=<%= page %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>"><%= page %></a></li>
+                <% } %>
+              <% }); %>
+            </li>
+            <% if(pages.current < pages.total && pages.hasNext === true && search !== "") { %>
+            <li>
+              <a class="btn btn-xs" href="/lp:t?search=<%= search %>&category=<%= category %>&genre=<%= genre %>&page=<%= pages.next %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>" aria-label="Next">
+                <span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <li>
+              <a class="btn btn-xs" href="/lp:t?search=<%= search %>&category=<%= category %>&genre=<%= genre %>&page=<%= pages.last %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>" aria-label="Next">
+                <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <% } if(pages.current === pages.total && pages.hasNext === false) { %>
+            <li>
+              <a class="btn btn-xs disabled" aria-label="Next">
+                <span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <li>
+              <a class="btn btn-xs disabled" aria-label="Next">
+                <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <% } else { %>
+            <li>
+              <a class="btn btn-xs" href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=<%= pages.next %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>" aria-label="Next">
+                <span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <li>
+              <a class="btn btn-xs" href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=<%= pages.last %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>" aria-label="Next">
+                <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <% } %>
+          </ul>
+				</div>
+			</nav>	
+		</div>
+	</div><!-- end of desktop pagination -->
+  <div class="mobile row">
+    <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+      <nav>
+        <div class="col-md-6 col-md-offset-3 text-center">
+          <p>Sivu <%= pages.current%> / <%= pages.total %> sivusta</p>
+          <p>Tuotteita yhteensä <%= items.total %> kpl</p>
+          <ul class="pagination pagination-sm">
+            <% if(pages.current > 1 && pages.hasPrev === true && search !== "") { %>
+            <li>
+              <a class="btn" href="/lp:t?search=<%= search %>&category=<%= category %>&genre=<%= genre %>&page=<%= pages.first %>&search=<%= search %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>" aria-label="Previous">
+                <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <li>
+              <a class="btn" href="/lp:t?search=<%= search %>&category=<%= category %>&genre=<%= genre %>&page=<%= pages.prev %>&search=<%= search %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>" aria-label="Previous">
+                <span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <% } if(pages.current === 1 && pages.hasPrev === false) { %>
+            <li>
+              <a class="btn disabled" aria-label="Previous">
+                <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <li>
+              <a class="btn disabled" aria-label="Previous">
+                <span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <% } else { %>
+            <li>
+              <a class="btn" href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=<%= pages.first %>&search=<%= search %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>" aria-label="Previous">
+                <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <li>
+              <a class="btn" href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=<%= pages.prev %>&search=<%= search %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>" aria-label="Previous">
+                <span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <% } %>
+            <li>
+              <% pages.visiblePages.forEach(function(page) { %>
+                <% if(search !== "") { %> 
+                <li><a class="btn" href="/lp:t?search=<%= search %>&category=<%= category %>&genre=<%= genre %>&page=<%= page %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>"><%= page %></a></li>
+                <% } else { %>
+                <li><a class="btn" href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=<%= page %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>"><%= page %></a></li>
+                <% } %>
+              <% }); %>
+            </li>
+            <% if(pages.current < pages.total && pages.hasNext === true && search !== "") { %>
+            <li>
+              <a class="btn" href="/lp:t?search=<%= search %>&category=<%= category %>&genre=<%= genre %>&page=<%= pages.next %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>" aria-label="Next">
+                <span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <li>
+              <a class="btn" href="/lp:t?search=<%= search %>&category=<%= category %>&genre=<%= genre %>&page=<%= pages.last %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>" aria-label="Next">
+                <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <% } if(pages.current === pages.total && pages.hasNext === false) { %>
+            <li>
+              <a class="btn disabled" aria-label="Next">
+                <span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <li>
+              <a class="btn disabled" aria-label="Next">
+                <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <% } else { %>
+            <li>
+              <a class="btn" href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=<%= pages.next %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>" aria-label="Next">
+                <span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <li>
+              <a class="btn" href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=<%= pages.last %>&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>" aria-label="Next">
+                <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+              </a>
+            </li>
+            <% } %>
+          </ul>
+        </div>
+      </nav>  
+    </div>
+  </div>
+</div>

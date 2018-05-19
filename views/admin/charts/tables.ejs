@@ -1,0 +1,36 @@
+<% layout('admin') -%>
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="page-header">
+				<h2><i class="fa fa-table fa-fw"></i> Raportit taulukkoina <small class="pull-right"><%= moment(Date.now()).locale("fi").format('DD.MM.YYYY') %></small></h2>
+			</div>
+		</div>
+	</div>	
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<h3>Kappalemäärät genreittäin</h3>
+			<table class="table table-striped">
+				<thead>
+					<tr id="reportHeading">
+						<th class="col-md-6">Genre</th>
+						<th class="col-md-6">Määrä</th>
+					</tr>
+				</thead>
+				<tbody id="dataRow">
+					
+				</tbody>
+				<tfoot>
+					<tr>
+						<td class="col-md-6">
+							Yhteensä:
+						</td>
+						<td>
+							<%= count %> tuotetta				
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,151 @@
+<% layout('layout') -%>
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<h2 class="page-header"><%= product.category !== "Oheistarvikeet" ? product.title+" - "+product.name : product.title %></h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1 col-sm-6">
+			<div class="col-md-4 col-sm-6">
+				<div class="thumbnail">
+					<img id="smallImage" src="<%= product.cover %>" class="img-responsive" alt="<%=product.title%> <%=product.name%> <%=product.year%>" />
+				</div>
+			</div>
+			<div class="col-md-5 col-sm-6">
+				<img id="bigImage" src="<%= product.cover %>" alt="<%=product.title%> <%=product.name%> <%=product.year%>">
+				<% if(product.category === "Oheistarvikkeet") { %>
+					<h4>Lisätiedot</h4>
+					<p><%= product.description %></p>
+				<% } else { %>
+				<ol class="media-list">
+					<li class="media-list-item"><h4>Kappaleet</h4></li>
+					<% product.tracklist.forEach(function(track) { %>
+					<li class="media-list-item"><%=track%></li>
+					<% }); %>
+				</ol>
+				<% } %>
+			</div>
+			<div id="pricesMenu" class="col-md-3 col-sm-12 col-xs-12">
+				<h4><%= product.category !== "Oheistarvikkeet" ? product.category+" Lp:t" : product.category %></h4>
+				<div class="divider"></div>
+				<h4 class="<%= Number(product.discountedPrice) ? 'line-through' : 'normal' %>"><%= Number(product.discountedPrice) ? product.unit_price+",00 €" : Number.isInteger(product.unit_price) ? product.unit_price + '.00 €' : product.unit_price + '0 €' %></h4>
+				<% if(product.category !== "Oheistarvikkeet") { %>
+					<% product.stores.forEach(function(store) { %>
+						<% if(store.quantity === 0) { %>
+						
+						<% } else if(product.category === "Tulevat") { %>	
+							
+						<% } else if(store.quantity === 1) { %>
+							<p><%= product.category === "Oheistarvikkeet" ? "" : store.location %><span class="pull-right"><%= store.quantity %></span></p>
+							<div class="progress">
+  								<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="<%= store.quantity %>" aria-valuemin="0" aria-valuemax="5" style="width: <%= store.quantity / 5 * 100%>%;">
+    								<span class="sr-only">60% Complete</span>
+  								</div>
+							</div>
+						<% } else if(store.quantity > 1){ %>
+							<p><%= product.category === "Oheistarvikkeet" ? "" : store.location %><span class="pull-right"><%= store.quantity %></span></p>
+							<div class="progress">
+  								<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<%= store.quantity %>" aria-valuemin="0" aria-valuemax="5" style="width: <%= store.quantity / 5 * 100%>%;">
+    								<span class="sr-only">60% Complete</span>
+  								</div>
+							</div>
+						<% } %>
+					<% }); %>
+				<% } %>
+				<div class="btn-group" role="group" aria-label="...">
+					<div class="btn-group btn-group-sm cart-buttons" role="group" aria-label="...">
+						<% if(product.total_quantity === 0) { %> 
+							<button type="button" class="btn btn-default">-</button>
+							<button type="button" class="btn btn-default quantity">0</button>
+							<input type="hidden" class="btn btn-default total_quantity" value="1">
+							<input type="button" class="btn btn-default total_price" value="<%= Number.isInteger(product.unit_price) ? product.unit_price + '.00 €' : product.unit_price + '0 €' %>" />
+							<button type="button" class="btn btn-default">+</button>
+							<input type="hidden" class="total_unit_price" value="<%= product.unit_price%>">
+							<input type="hidden" value="<%= product.genre %>" class="product_genre">
+							<input type="hidden" class="quantity_total" value="<%= product.total_quantity%>">
+							<input type="hidden" value="<%= product._id%>" class="product_id">
+							<button type="button" class="btn btn-default" disabled="true">Lp ei saatavilla</button>
+						<% } else if(product.category === "Tarjoukset") { %>
+              				<input type="hidden" class="btn btn-default total_quantity" value="1">
+              				<input type="button" class="btn btn-default" value="-<%= product.getDiscountRate() %>%">
+              				<input type="button" class="btn btn-default total_price" value="<%= Number.isInteger(product.discountedPrice) ? product.discountedPrice + '.00 €' : product.discountedPrice + '0 €' %>" />
+              				<input type="hidden" class="unit_price" value="<%= product.discountedPrice%>">
+              				<input type="hidden" class="total_unit_price" value="<%= product.discountedPrice%>">
+              				<input type="hidden" class="tax_amount" value="<%= product.tax%>">
+              				<input type="hidden" class="total_tax_amount" value="<%= product.tax%>">
+              				<input type="hidden" class="unit_price_excluding_tax" value="<%= product.unit_price_excluding_tax%>">
+              				<input type="hidden" class="total_unit_price_excluding_tax" value="<%= product.unit_price_excluding_tax%>">
+              				<input type="hidden" class="quantity_total" value="<%= product.total_quantity%>">
+              				<input type="hidden" value="<%= product._id%>" class="product_id">
+              				<input type="hidden" value="<%= product.genre %>" class="product_genre">
+               				<button type="button" class="btn btn-success addToCart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+						<% } else { %>
+							<button type="button" class="btn btn-default minus">-</button>
+							<button type="button" class="btn btn-default quantity">1</button>
+							<input type="hidden" class="btn btn-default total_quantity" value="1">
+							<input type="button" class="btn btn-default total_price" value="<%= Number.isInteger(product.unit_price) ? product.unit_price + '.00 €' : product.unit_price + '0 €' %>" />
+							<button type="button" class="btn btn-default plus">+</button>
+              				<input type="hidden" class="unit_price" value="<%= product.unit_price%>">
+							<input type="hidden" class="total_unit_price" value="<%= product.unit_price%>">
+							<input type="hidden" class="tax_amount" value="<%= product.tax%>">
+							<input type="hidden" value="<%= product.genre %>" class="product_genre">
+							<input type="hidden" class="total_tax_amount" value="<%= product.tax%>">
+							<input type="hidden" class="unit_price_excluding_tax" value="<%= product.unit_price_excluding_tax%>">
+							<input type="hidden" class="total_unit_price_excluding_tax" value="<%= product.unit_price_excluding_tax%>">
+							<input type="hidden" class="quantity_total" value="<%= product.total_quantity%>">
+							<input type="hidden" value="<%= product._id%>" class="product_id">
+							<% if(product.category === "Tulevat") { %>
+								<button type="button" class="btn btn-warning addToCart"><i class="fa fa-shopping-cart" aria-hidden="true"></i> varaa</button>
+							<% } else { %>
+								<button type="button" class="btn btn-success addToCart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+							<% } %>
+						<% } %>
+					</div>
+				</div>
+				<% if(product.category !== "Oheistarvikkeet") { %>
+					<p><strong>Huom, Svart-recordsin julkaisut eivät kerrytä leimoja.</strong></p>
+				<% } %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<% if(product.category !== "Oheistarvikkeet") { %>
+		<div class="col-md-10 col-md-offset-1 col-xs-12">
+			<div class="col-md-3 col-xs-6">
+				<h4>Genre</h4>
+				<p><%= product.genre %></p>
+			</div>
+			<div class="col-md-3 col-xs-6">
+				<h4>Painos</h4>
+				<p><%= product.edition %></p>
+			</div>
+			<div class="col-md-3 col-xs-6">
+				<% if(product.category === "Tulevat") { %>
+					<h4>Julkaisupäivä</h4>
+					<p><%= moment(product.releasedate).format('DD.MM.YYYY') %></p>
+				<% } if(product.category === "Uudet") { %>
+					<h4>Kunto</h4>
+					<p>Levy: Uusi</p>
+					<p>Kannet: Uusi</p>
+				<% } if(product.category === "Käytetyt" || product.category === "tarjoukset") { %>
+					<h4>Kunto</h4>
+					<p>Levy: <%= product.conditionDisk %></p>
+					<p>Kannet: <%= product.conditionCovers %></p>
+				<% } %>
+			</div>
+			<div class="col-md-3 col-xs-6">
+				<h4>Tuotanto yhtiö ja vuosi</h4>
+				<p><%= product.label %></p>
+				<p><%= product.year %></p>
+			</div>
+		</div>
+		<% } %>
+	</div><!-- End of the row -->
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<h4>Lisätietoa:</h4>
+			<p><%= product.additional_info %></p>
+		</div>
+	</div>
+</div>

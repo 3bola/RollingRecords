@@ -1,0 +1,27 @@
+<% layout('layout') -%>
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="page-header">
+				<h2><i class="fa fa-key" aria-hidden="true"></i> Luo uusi salasana</h2>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<form action="/kayttajahallinta/salasananpalautus/<%= user.resetPasswordToken %>?_method=PATCH" method="POST">
+				<div class="form-group">
+					<label for="newpassword">Uusi salasana</label>
+					<input type="password" name="newpassword" id="newpassword" class="form-control" placeholder="Uusi salasana *" required>
+				</div>
+				<div class="form-group">
+					<label for="confpw">Vahvista salasana</label>
+					<input type="password" id="confpw" class="form-control" placeholder="Vahvista salasana *" required>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-block btn-success">Luo salasana</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

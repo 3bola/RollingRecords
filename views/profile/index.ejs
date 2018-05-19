@@ -1,0 +1,197 @@
+<% layout('profile') -%>
+<div class="container">
+	<p class="lead"><h1><i class="fa fa-user" aria-hidden="true"></i> Tervetuloa</h1></p>
+	<hr>
+	<div class="grey-bag col-md-3">
+		<ul class="nav nav-pills nav-stacked">
+  			<li role="presentation" class="active"><a href="#UserInfo" data-toggle="tab"><i class="fa fa-address-book" aria-hidden="true"></i> Käyttäjätiedot</a></li>
+  			<li role="presentation"><a href="#Address" data-toggle="tab"><i class="fa fa-address-card" aria-hidden="true"></i> Osoitehallinta</a></li>
+  			<li role="presentation"><a href="#Orders" data-toggle="tab"><i class="fa fa-archive" aria-hidden="true"></i> Tilaushistoria</a></li>
+  			<li role="presentation"><a href="#AccountManagement" data-toggle="tab"><i class="fa fa-cog" aria-hidden="true"></i> Käyttäjätilin hallinta</a></li>
+		</ul>
+	</div>
+	<div class="col-md-9">
+		<div class="tab-content clearfix">
+			<div class="tab-pane active" id="UserInfo">
+				<h2><i class="fa fa-address-book" aria-hidden="true"></i> <%= user.getFullName() %></h2>
+				<hr>
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="col-md-5 col-sm-12 col-xs-12">
+						<h4>Käyttäjätiedot</h4>
+						<p>Käyttäjänimi: <strong><%= user.username %></strong></p>
+						<p>Sähköposti: <strong><%= user.email %></strong></p>
+						<p>Puhelinnumero: <strong><%= user.mobileNumber %></strong></p>
+					</div>
+					<div class="col-md-7 col-sm-12 col-xs-12">
+						<h4>Käyttäjätietojen hallinta</h4>
+						<button id="editUserInformationBtn" class="btn btn-warning">Muokkaa käyttäjätietoja</button>
+						<div id="registerMsg1"></div>
+						<div id="registerMsg2"></div>
+						<div id="registerMsg3"></div>
+						<div id="registerMsg4"></div>
+						<form id="editUserInformationForm" action="/profiili/<%= user._id %>?_method=PUT" method="POST">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="firstname">Etunimi *</label>
+									<input type="text" name="firstname" id="firstname" value="<%= user.name.firstname %>" required class="form-control">
+									<p id="firstnameErr"></p>
+								</div>
+								<div class="form-group">
+									<label for="email">Sähköposti *</label>
+									<input type="email" name="email" id="email" value="<%= user.email %>" required class="form-control">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="lastname">Sukunimi *</label>
+									<input type="text" name="lastname" id="lastname" value="<%= user.name.lastname %>" required class="form-control">
+								</div>
+								<div class="form-group">
+									<label for="mobileNumber">Puhelinnumero *</label>
+									<input type="tel" name="mobileNumber" id="mobileNumber" value="<%= user.mobileNumber %>" required class="form-control">
+								</div>
+							</div>
+							<div class="form-group">
+								<button id="editUserInformationSubmitBtn" type="submit" class="btn btn-success" disabled="true"><i class="fa fa-edit" aria-hidden="true"></i> Muokkaa</button>
+								<button type="button" class="btn btn-warning" id="cancelBtn">Piilota lomake</button>
+							</div>
+						</form>
+					</div>
+					<hr>
+				</div>
+				<div class="col-md-10 col-md-offset-1">
+					<h3>Bonusjärjestelmä</h3>
+					<hr>
+					<p>Kanta-asiakkaanamme, teillä on käytössänne meidän <strong><a href="/kantaasiakasohjelma">Bonusjärjestelmämme</a></strong>.</p>
+					<h4>Leimat:</h4>
+					<p>Tähän mennessä olette keränneet <strong><%= user.bonus_system.stamps %> leimaa</strong></p>
+					<h4>Kupongit</h4>
+					<% user.bonus_system.coupons.forEach(function(coupon) { %>
+						<div class="well <%= coupon.valid ? 'success green' : 'danger red' %>"><p><%= coupon.valid ? 'Käytettävissä: ' : `Käytetty: ` %> <strong>1 kpl, Arvo: <%= coupon.value %>,00 €</strong></p></div>
+					<% }); %>
+				</div>
+			</div>
+			<div class="tab-pane" id="Address">
+				<% if(user.completeAddress.address==="") { %>
+				<h2><i class="fa fa-address-card" aria-hidden="true"></i> Osoitetiedot</h2>
+            	<button id="formshow" class="btn btn-info">+ Lisää osoite</button></h2>
+            	<div id="adrsfrm">
+					<form action="/profiili/<%=user._id%>/osoite" method="POST">
+						<div class="form-group">
+							<label for="zipcode">Postinumero *</label>
+							<input type="text" id="zipcode" name="zipcode" class="form-control" placeholder="Postinumero *" required>
+						</div>
+						<div class="form-group">
+							<label for="locality">Paikkakunta *</label>
+							<input type="text" id="locality" name="locality" class="form-control" placeholder="Paikkakunta *" required>
+						</div>
+						<div class="form-group">
+							<label for="address1">Katuosoite *</label>
+							<input type="text" id="address1" name="address" class="form-control" placeholder="Katuosoite *" required>
+						</div>
+						<div class="form-group">	
+							<label for="city">Kaupunki *</label>
+							<input type="text" id="city" name="city" class="form-control" placeholder="Kaupunki *" required>
+						</div>
+						<div class="form-group">
+							<label for="state">Maakunta *</label>
+							<input type="text" id="state" name="state" class="form-control" placeholder="Maakunta *" required>
+						</div>
+						<div class="form-group">				
+							<button class="btn btn-success">Save</button>
+							<button id="cancel" type=button class="btn btn-danger">Cancel</button>
+						</div>
+					</form>
+				</div>
+            	<%} else { %>
+            	<h2><i class="fa fa-address-card" aria-hidden="true"></i> Osoitetiedot</h2>
+        		<hr>
+        		<div class="col-md-6">
+        			<h4>Nykyinen osoite</h4>
+        			<div class="well">
+            			<p><%= user.completeAddress.address %></p>
+            			<p><%= user.completeAddress.zipcode+', '+user.completeAddress.city %></p>
+        			</div>
+        		</div>
+        		<div class="col-md-6">
+        			<h4>Päivitä osoitetta</h4>
+        			<div class="well">
+        				<form action="/profiili/<%= user._id %>/osoite?_method=PUT" method="POST">
+		        			<div class="form-group">
+		    					<label for="zipcode">Postinumero *</label>
+								<input type="text" id="zipcode" name="zipcode" class="form-control" value="<%= user.completeAddress.zipcode %>" required>
+		    				</div>
+		    				<div class="form-group">
+		    					<label for="address1">Katuosoite *</label>
+								<input type="text" id="address1" name="address" class="form-control" value="<%= user.completeAddress.address %>" required>
+		    				</div>
+		    				<div class="form-group">
+		    					<label for="city">Kaupunki *</label>
+								<input type="text" id="city" name="city" class="form-control" value="<%= user.completeAddress.city %>" required>
+		    				</div>
+		        			<div class="form-group">
+		        				<button type="submit" class="btn btn-success">Muokkaa</button>
+								<button id="cancel" type=button class="btn btn-warning">Peruuta</button>
+		        			</div>
+		        		</form>
+        			</div>
+   				</div>
+   				<% } %>
+			</div><!-- end of tab-pane #Address -->
+			<div class="tab-pane" id="Orders">
+				<h2><i class="fa fa-archive" aria-hidden="true"></i> Tilaushistoria</h2>
+				<hr>
+				<% user.history.forEach(function(order) { %>
+				<a href="/profiili/<%= user._id %>/tilaus/<%= order._id %>">
+					<div class="media">
+						<div class="col-md-2">
+							<div class="media-left">
+    							<img class="media-object img-responsive" src="/images/order.png" alt="tilaus">
+							</div>
+						</div>
+						<div class="col-md-8">
+							<div class="media-body">
+								<h4 class="media-heading">Tilaus numero: <%= order.order_number%></h4>
+								<p><strong>Kokonaishinta:</strong> <strong><%= order.payment.total_price_including_tax %>,00 €</strong> | <strong>Maksutapa: <%= order.payment_method %></strong></p>
+								<p><em>Tilauksen tila: </em><strong><%= order.status === "pending" ? "Vastaanotettu" : order.status === "recieved" ? "Käsittelyssä" : order.status === "delivered" ? "Toimitettu" : "Valmis noudettavaksi" %></strong></p>
+  								<p><em><strong>Viimeksi muokattu:</strong> <%= moment(order.updatedAt).format('DD.MMMM.YYYY hh:mm a') %></em></p>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<a href="/profiili/<%= user._id %>/tilaus/<%= order._id %>" class="btn btn-info">Katsele</a>
+						</div>
+					</div>
+				</a>
+				<% }); %>
+				<hr>
+			</div>
+			<div class="tab-pane" id="AccountManagement">
+				<h2>Poista käyttäjätili</h2>
+				<form action="/profiili/<%= user._id %>?_method=DELETE" method="POST">
+					<button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Poista käyttäjätili</button>
+				</form>
+				<!-- <h2>Muuta Salasanaa</h2>
+				<hr>
+				<div class="col-md-8 col-md-offset-2">
+					<form onsubmit="">
+						<div class="form-group">
+							<label for="password">Nykyinen salasana</label>
+							<input class="form-control" type="password" name="password" id="password" placeholder="Nykyinen salasana *" required>
+						</div>
+						<div class="form-group">
+							<label for="newpassword">Uusi salasana</label>
+							<input class="form-control" type="password" name="newpassword" id="newpassword" placeholder="Uusi salasana *" required>
+						</div>
+						<div class="form-group">
+							<label for="confnewpassword">Uusi salasana</label>
+							<input class="form-control" type="password" name="confnewpassword" id="confnewpassword" placeholder="Vahvista uusi salasana *" required>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-warning">Muuta</button>
+						</div>
+					</form>
+				</div> -->
+			</div>
+		</div>
+	</div>
+</div>

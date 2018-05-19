@@ -1,0 +1,178 @@
+<% layout('checkout') -%>
+<div class="container">
+	<% if(user) { %>
+		<input id="userId" type="hidden" value="<%= user._id %>">
+	<% } %>
+	<% if(cart.bonus_system.coupon_id) { %>
+		<input type="hidden" value="<%= cart.bonus_system.coupon_id %>" id="couponIdValue">
+	<% } %>
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="page-header">
+				<h2>2. Kassa</h2>
+			</div>
+			<ul class="breadcrumb">
+				<li>
+					<% if(user && user.admin.isAdmin) { %>
+						<a class="item" href="/ostoskori/<%= session.cart._id %>">1. Ostoskori</a>
+					<% } else { %>
+						<a class="item">1. Ostoskori</a>
+					<% } %>
+				</li>
+				<li>
+					<% if(user && user.admin.isAdmin) { %>
+						<a class="item bc-active" href="/ostoskori/<%= session.cart._id %>/kassa">2. Kassa</a>
+					<% } else { %>
+						<a class="item bc-active">2. Kassa</a>
+					<% } %>
+				</li>
+				<li>
+					<% if(user && user.admin.isAdmin) { %>
+						<a class="item" href="/ostoskori/<%= session.cart._id %>/maksu">3. Maksu</a>
+					<% } else { %>
+						<a class="item">3. Maksu</a>
+					<% } %>
+				</li>
+				<li>
+					<% if(user && user.admin.isAdmin) { %>
+						<a class="item" href="/ostoskori/<%= session.cart._id %>/vahvistus">4. Vahvistus</a>
+					<% } else { %>
+						<a class="item">4. Vahvistus</a>
+					<% } %>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<table class="table table-hover table-striped">
+				<thead>
+					<tr>
+						<th class="col-md-4">Tuote</th>
+						<th class="col-md-2">Tyyppi</th>
+						<th class="col-md-1">Hinta</th>
+						<th class="col-md-3">Määrä</th>
+						<th class="col-md-2">Yhteensä</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% cart.items.forEach(function(item) { %>
+						<td class="col-md-5">
+								<div class="col-md-4">
+									<div class="thumbnail">
+										<img class="img-responsive" src="<%= item.item.cover %>" alt="<%= item.item.title %>, <%= item.item.name%>" />
+									</div>
+								</div>
+								<div class="col-md-8">
+									<p><%= item.item.title %></p>
+									<p><%=item.item.name %></p>
+								</div>
+							</td>
+							<td class="col-md-1"><%= item.item.type.toUpperCase() %></td>
+							<td class="col-md-1">
+								<p><%= Number(item.item.discountedPrice) ? cart.setPriceTag(item.item.discountedPrice) : cart.setPriceTag(item.item.unit_price) %></p>
+							</td>
+							<td class="col-md-3">
+								<p><%= item.quantity %> kpl</p>
+							</td>
+							<td class="col-md-1">
+								<p class="totalPriceToDisplay"><%= cart.setPriceTag(item.total_price_including_tax)%></p>
+							</td>
+						</tr>
+					<% }); %>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>Tuotteet ilman alv:</td>
+						<td><%= cart.setPriceTag(cart.total_price_excluding_tax) %></td>
+					</tr>
+					<tr>
+						<td>Bonusjärjestelmä</td>
+						<td></td>
+						<td></td>
+						<td>Alv 24%:</td>
+						<td id="total_tax_amount"><%= cart.setPriceTag(cart.total_tax_amount) %></td>
+					</tr>
+					<tr>
+						<td>Leimoihin oikeuttava kokonaissumma:</td>
+						<td id="bonuSystemTotalPrice"><%= Number.isInteger(cart.bonus_system.total_price) ? Number(cart.bonus_system.total_price)+",00 €" : Number.IsInteger(cart.bonus_system.total_price)+"0 €" %></td>
+						<td></td>
+						<td>Tuotteet yhteensä:</td>
+						<td><%= cart.setPriceTag(cart.total_price_including_tax) %></td>
+					</tr>
+					<tr>
+						<td>Kertyvät leimat:</td>
+						<td><%= cart.bonus_system.stamps %> kpl</td>
+						<td></td>
+						<td>Toimituskulut:</td>
+						<td id="dcPrice">5,90 €</td>
+					</tr>
+					<tr>
+						<td id="promptForCoupon"></td>
+						<td></td>
+						<td></td>
+						<td>Hyvitykset:</td>
+						<td id="couponDiscountValue"><%= cart.bonus_system.coupon_value !== null ? "- "+cart.bonus_system.coupon_value+",00 €" : "0,00 €" %></td>
+					</tr>
+					<tr>
+						<td>Huom! Leimat kirjautuvat tilillesi maksun jälkeen.</td>
+						<td></td>
+						<td></td>
+						<td>Loppusumma:</td>
+						<td id="totalPrice" class="total_price" value="<%= cart.total_price %>"><%= Number.isInteger(cart.total_price) ? cart.total_price+",00 €" : cart.total_price+"0 €" %></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="nav nav-tabs costs">
+				<input type="hidden" id="cartId" value="<%= cart._id%>">
+				<% deliveryCosts.forEach(function(cost) { %>
+				<li role="presentation" class="tabsMenuItem" data-toggle="tab" href="#<%= cost._id %>" value="<%= cost.unit_price === 0 ? cost.unit_price : cost.unit_price %>" id="<%= cost._id %>">
+					<a href=""><%= cost.name %> - <%= cart.setPriceTag(cost.unit_price) %></a>
+					<input type="hidden" class="costPrice" value="<%= cost.unit_price === 0 ? cost.unit_price : cost.unit_price %>">
+					<input type="hidden" class="dcPriceValue" name="unit_price" value="<%= cost.unit_price %>">
+				</li>
+			<% }); %>
+			</div>
+			<div class="tab-content">
+				<% deliveryCosts.forEach(function(cost) { %>
+					<div id="<%= cost._id %>" class="tab-pane fade in">
+						<p><%= cost.description === "Hinta sisältää Alv 24%" ? "Toimituskulun "+cost.description : cost.description %></p>
+						<% if(!user) { %> 
+							<p>Jatkaaksesi maksamaan ostoksia, sinun täytyy olla <strong>kirjautunut</strong> käyttäjä.</p>
+							<p>Voit kirjautua sisään <strong><a href="/kayttajahallinta/kirjaudu">täältä</a></strong>.</p>
+						<% } else if(cost.name === "Nouto myymälästä") { %>
+							<p>Valitse Myymälä:</p>
+							<form id="storeForm" action="/ostoskori/<%= session.cart._id %>/maksu" method="GET">
+								<div class="radio">
+									<label>
+										<input type="radio" name="store_location" id="HelsinkiSörnäinen" value="Helsinki, Sörnäinen" checked>
+										Helsinki, Sörnäinen
+									</label>
+								</div>
+								<div class="radio">
+									<label>
+										<input type="radio" name="store_location" id="TampereKeskusta" value="Tampere, Keskusta">
+										Tampere, Keskusta
+									</label>
+								</div>
+								<input type="hidden" name="<%= cost._id %>">
+								<button type="submit" class="btn btn-success">Maksa</button>
+							</form>
+						<% } else { %>
+							<a href="/ostoskori/<%= session.cart._id %>/maksu" class="btn btn-success">Maksa</a>
+						<% } %>
+					</div>
+				<% }); %>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<a href="/ostoskori/<%= cart._id %>"><i class="fa fa-chevron-left" aria-hidden="true"></i> Takaisin ostoskoriin</a>
+</div>

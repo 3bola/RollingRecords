@@ -1,0 +1,84 @@
+<% layout('layout') -%>
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="page-header">
+				<h2><i class="fa fa-user-plus" aria-hidden="true"></i> Rekisteröidy</h2>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div id="registerMsg"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<form id="signUpForm">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="username">Käyttäjätunnus</label>
+						<input type="text" name="username" id="username" placeholder="Käyttäjätunnus *" class="form-control" required />
+						<p class="danger" id="usernameErr"></p>
+					</div>
+					<div class="form-group">
+						<label for="email">Sähköposti</label>
+						<input type="email" name="email" id="email" placeholder="Sähköposti *" class="form-control" required />
+						<p class="danger" id="emailErr"></p>
+					</div>
+					<div class="form-group">
+						<label for="password">Salasana</label>
+						<input type="password" name="password" id="password" placeholder="Salasana *" class="form-control" required />
+						<p class="danger" id="passwordErr"></p>
+					</div>
+					<div class="form-group">
+						<label for="address">Katuosoite *</label>
+						<input type="text" name="address" id="address" placeholder="Katuosoite *" class="form-control" required />
+						<p class="danger" id="addressErr"></p>
+					</div>
+					<div class="form-group">
+						<label for="zipcode">Postinumero *</label>
+						<input type="text" name="zipcode" id="zipcode" placeholder="Postinumero *" class="form-control" required />
+						<p class="danger" id="zipCodeErr"></p>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="firstname">Etunimi</label>
+						<input type="text" name="firstname" id="firstname" placeholder="Etunimi *" class="form-control" required />
+						<p class="danger" id="firstnameErr"></p>
+					</div>
+					<div class="form-group">
+						<label for="lastname">Sukunimi</label>
+						<input type="text" name="lastname" id="lastname" placeholder="Sukunimi *" class="form-control" required />
+						<p class="danger" id="lastnameErr"></p>
+					</div>
+					<div class="form-group">
+						<label for="confPassword">Varmenna salasana</label>
+						<input type="password" id="confPassword" placeholder="Varmenna salasana *" class="form-control" required />
+						<p class="danger" id="confPasswordErr"></p>
+					</div>
+					<div class="form-group">
+						<label for="mobileNumber">Puhelinumero *</label>
+						<input type="tel" name="mobile_number" id="mobileNumber" placeholder="Puhelinnumero *" class="form-control" required />
+						<p class="danger" id="mobileNumberErr"></p>
+					</div>
+					<div class="form-group">
+						<label for="city">Kaupunki *</label>
+						<input type="text" name="city" id="city" placeholder="Kaupunki *" class="form-control" required />
+						<p class="danger" id="cityErr"></p>
+					</div>
+				</div>
+				<div class="col-md-8 col-md-offset-2">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="terms" id="terms" required />
+							Sitoudun noudattamaan RollingRecords verkkokaupan <a href="/kayttoehdot">Käyttöehtoja</a>.
+						</label>
+					</div>
+					<div class="form-group">
+						<button id="registerSubmitBtn" type="submit" class="btn btn-success btn-block">Rekisteröidy</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

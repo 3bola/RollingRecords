@@ -1,0 +1,135 @@
+<% layout('layout') -%>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
+      <div class="page-header">
+        <h1 id="title">Rolling Records</h1>
+      </div>
+    </div>
+  </div>
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4 col-sm-12 col-xs-12">
+			<form id="searchForm2" class="inline-form" action="/lp:t" method="GET">
+        		<div class="form-group col-md-11 col-sm-10 col-xs-10">
+          			<input type="search" class="form-control" name="search" placeholder="Hae levyjä..." id="searchTerm">
+          			<input type="hidden" name="page" value="1">
+        		</div>
+        		<div class="col-md-1 col-sm-1 col-xs-1">
+        			<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+        		</div>
+      		</form>
+		</div>
+	</div>
+	<div id="grid" class="rig row">
+		<div class="col-md-10">
+			<% frontPageProducts.forEach(function(product) { %>
+			<div class="col-md-3 col-sm-6 col-xs-6">
+				<div class="productBox">
+          			<a href="/lp:t/<%= product._id %>">
+              			<div class="thumbnail rig-cell">
+                			<img src="<%=product.cover%>" class="rig-img img-responsive" />
+                			<p class="rig-icon"><i class="fa fa-search-plus" aria-hidden="true"></i></p>
+                			<div class="rig-overlay"></div>
+            			</div>
+          			</a>
+					<div class="thumbnail">
+						<div class="product_grid_header">
+							<h3><%= product.title %></h3>
+							<h4><%= product.name%></h4>
+						</div>
+						<div class="btn-group btn-group-sm cart-buttons" role="group" aria-label="...">
+							<% if(product.total_quantity === 0) { %>
+								<input type="button" class="btn btn-default total_price" value="<%= Number.isInteger(product.unit_price) ? product.unit_price + '.00 €' : product.unit_price + '0 €' %>" />
+								<input type="hidden" class="btn btn-default total_quantity" value="1">
+								<input type="hidden" class="total_unit_price" value="<%= product.unit_price%>">
+								<input type="hidden" value="<%= product.genre %>" class="product_genre">
+								<input type="hidden" class="quantity_total" value="<%= product.total_quantity%>">
+								<input type="hidden" value="<%= product._id%>" class="product_id">
+								<button type="button" class="btn btn-default" disabled="true">Lp ei saatavilla</button>
+							<% } else if(product.category === "Tarjoukset") { %>
+              					<input type="hidden" class="btn btn-default total_quantity" value="1">
+              					<input type="button" class="btn btn-default" value="-<%= product.getDiscountRate() %>%">
+              					<input type="button" class="btn btn-default total_price" value="<%= Number.isInteger(product.discountedPrice) ? product.discountedPrice + '.00 €' : product.discountedPrice + '0 €' %>" />
+              					<input type="hidden" class="unit_price" value="<%= product.discountedPrice%>">
+              					<input type="hidden" class="total_unit_price" value="<%= product.discountedPrice%>">
+              					<input type="hidden" class="tax_amount" value="<%= product.tax%>">
+              					<input type="hidden" class="total_tax_amount" value="<%= product.tax%>">
+              					<input type="hidden" class="unit_price_excluding_tax" value="<%= product.unit_price_excluding_tax%>">
+              					<input type="hidden" class="total_unit_price_excluding_tax" value="<%= product.unit_price_excluding_tax%>">
+              					<input type="hidden" class="quantity_total" value="<%= product.total_quantity%>">
+              					<input type="hidden" value="<%= product._id%>" class="product_id">
+              					<input type="hidden" value="<%= product.genre %>" class="product_genre">
+               					<button type="button" class="btn btn-success addToCart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+							<% } else { %>
+								<input type="hidden" class="btn btn-default total_quantity" value="1">
+								<input type="button" class="btn btn-default total_price" value="<%= Number.isInteger(product.unit_price) ? product.unit_price + '.00 €' : product.unit_price + '0 €' %>" />
+								<input type="hidden" class="unit_price" value="<%= product.unit_price%>">
+								<input type="hidden" class="total_unit_price" value="<%= product.unit_price%>">
+								<input type="hidden" value="<%= product.genre %>" class="product_genre">
+								<input type="hidden" class="tax_amount" value="<%= product.tax%>">
+								<input type="hidden" class="total_tax_amount" value="<%= product.tax%>">
+								<input type="hidden" class="unit_price_excluding_tax" value="<%= product.unit_price_excluding_tax%>">
+								<input type="hidden" class="total_unit_price_excluding_tax" value="<%= product.unit_price_excluding_tax%>">
+								<input type="hidden" class="quantity_total" value="<%= product.total_quantity%>">
+								<input type="hidden" value="<%= product._id%>" class="product_id">
+							<% if(product.category === "Tulevat") { %>
+								<button type="button" class="btn btn-warning addToCart"><i class="fa fa-shopping-cart" aria-hidden="true"></i> varaa</button>
+							<% } else { %>
+								<button type="button" class="btn btn-success addToCart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+							<% } %>
+							<% } %>
+						</div>
+					</div>
+				</div>
+				<hr role="separator" class="divider">
+			</div>
+			<% }); %>
+		</div>
+		<div class="col-md-2">
+			<!-- <% comingProducts.forEach(function(product) { %>
+			<div class="col-md-12 col-sm-6 col-xs-12">
+				<a class="productBox" href="/lp:t/<%= product._id %>">
+					<div class="thumbnail rig-cell">
+						<img src="<%=product.cover%>" class="rig-img img-responsive" />
+						<p class="rig-icon"><i class="fa fa-search-plus" aria-hidden="true"></i></p>
+						<div class="rig-overlay"></div>
+          </div>
+          <div class="thumbnail">
+            <div class="product_grid_header">
+              <h3><%= product.title %></h3>
+              <h4><%= product.name%></h4>
+            </div>
+            <div class="btn-group btn-group-sm cart-buttons" role="group" aria-label="...">
+            <% if(product.total_quantity === 0) { %>
+              <input type="button" class="btn btn-default total_price" value="<%= Number.isInteger(product.unit_price) ? product.unit_price + '.00 €' : product.unit_price + '0 €' %>" />
+              <input type="hidden" class="btn btn-default total_quantity" value="1">
+              <input type="hidden" class="total_unit_price" value="<%= product.unit_price%>">
+              <input type="hidden" class="quantity_total" value="<%= product.total_quantity%>">
+              <input type="hidden" value="<%= product._id%>" class="product_id">
+              <button type="button" class="btn btn-default" disabled="true">Lp ei saatavilla</button>
+            <% } else { %>
+              <input type="hidden" class="btn btn-default total_quantity" value="1">
+              <input type="button" class="btn btn-default total_price" value="<%= Number.isInteger(product.unit_price) ? product.unit_price + '.00 €' : product.unit_price + '0 €' %>" />
+              <input type="hidden" class="unit_price" value="<%= product.unit_price%>">
+              <input type="hidden" class="total_unit_price" value="<%= product.unit_price%>">
+              <input type="hidden" class="tax_amount" value="<%= product.tax%>">
+              <input type="hidden" class="total_tax_amount" value="<%= product.tax%>">
+              <input type="hidden" class="unit_price_excluding_tax" value="<%= product.unit_price_excluding_tax%>">
+              <input type="hidden" class="total_unit_price_excluding_tax" value="<%= product.unit_price_excluding_tax%>">
+              <input type="hidden" class="quantity_total" value="<%= product.total_quantity%>">
+              <input type="hidden" value="<%= product._id%>" class="product_id">
+              <% if(product.category === "Tulevat") { %>
+                <button type="button" class="btn btn-warning addToCart"><i class="fa fa-shopping-cart" aria-hidden="true"></i> varaa</button>
+              <% } else { %>
+                <button type="button" class="btn btn-success addToCart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+              <% } %>
+            <% } %>
+            </div>
+					</div>
+				</a>
+				<hr role="separator" class="divider">
+			</div>
+			<% }); %> -->
+		</div>
+	</div>
+</div>

@@ -1,0 +1,112 @@
+<% layout('admin') -%>
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="page-header">
+				<h2><i class="fa fa-dashboard fa-fw" aria-hidden="true"></i> Hallintapaneeli <small class="pull-right"><i class="fa fa-calendar" aria-hidden="true"></i> <%= moment(Date.now()).locale("fi").format('DD.MM.YYYY') %></small></h2>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="col-lg-3 col-md-6">
+	            <div class="panel panel-danger">
+	                <div class="panel-heading">
+	                    <div class="row">
+	                        <div class="col-xs-3">
+	                            <i class="fa fa-bell fa-4x"></i>
+	                        </div>
+	                        <div class="col-xs-9 text-right">
+	                            <div id="stockNf" class="huge"></div>
+	                            <div id="latestNotifications">Saapuneet yhteydenotot</div>
+	                        </div>
+	                    </div>
+	                </div>
+	                <a href="#">
+	                    <div class="panel-footer">
+	                        <span class="pull-left" id="showNotifications">Näytä</span>
+	                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+	                        <div class="clearfix"></div>
+	                    </div>
+	                </a>
+	            </div>
+	        </div>
+	        <div class="col-lg-3 col-md-6">
+	            <div class="panel panel-primary">
+	                <div class="panel-heading">
+	                    <div class="row">
+	                        <div class="col-xs-3">
+	                            <i class="fa fa-tasks fa-4x"></i>
+	                        </div>
+	                        <div class="col-xs-9 text-right">
+	                            <div id="stockNf" class="huge"></div>
+	                            <div>Ajankohtaiset tuotelistat</div>
+	                        </div>
+	                    </div>
+	                </div>
+	                <a href="#">
+	                    <div class="panel-footer">
+	                        <span class="pull-left">Näytä</span>
+	                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+	                        <div class="clearfix"></div>
+	                    </div>
+	                </a>
+	            </div>
+	        </div>
+	        <div class="col-lg-3 col-md-6">
+	            <div class="panel panel-success">
+	                <div class="panel-heading">
+	                    <div class="row">
+	                        <div class="col-xs-3">
+	                            <i class="fa fa-shopping-cart fa-4x"></i>
+	                        </div>
+	                        <div class="col-xs-9 text-right">
+	                            <div class="huge">124</div>
+	                            <div>Vekkokaupassa maksetut</div>
+	                        </div>
+	                    </div>
+	                </div>
+	                <a href="#">
+	                    <div class="panel-footer">
+	                        <span class="pull-left">Näytä</span>
+	                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+	                        <div class="clearfix"></div>
+	                    </div>
+	                </a>
+	            </div>
+	        </div>
+	        <div class="col-lg-3 col-md-6">
+	            <div class="panel panel-warning">
+	                <div class="panel-heading">
+	                    <div class="row">
+	                        <div class="col-xs-3">
+	                            <i class="fa fa-money fa-4x" aria-hidden="true"></i>
+	                        </div>
+	                        <div class="col-xs-9 text-right">
+	                            <div class="huge">13</div>
+	                            <div>Myymälään maksettavat</div>
+	                        </div>
+	                    </div>
+	                </div>
+	                <a href="#">
+	                    <div class="panel-footer">
+	                        <span class="pull-left">Näytä</span>
+	                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+	                        <div class="clearfix"></div>
+	                    </div>
+	                </a>
+	            </div>
+	        </div>
+		</div>
+    </div>
+    <div class="row">
+    	<div class="col-md-10 col-md-offset-1">
+    		<h4 id="notificationHeading">Viimeisimmät ilmoitukset</h4>
+    	</div>
+    </div>
+    <div class="row">
+    	<div class="col-md-8 col-md-offset-2">
+    		<ul class="media-list" id="notificationsList"></ul>
+    	</div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+kayttajahallinta<nav class="navbar navbar-inverse navbar-custom navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav1" aria-expanded="false">
+        <span class="sr-only">Valikko</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">
+        <img class="logo img-responsive" alt="Brand" src="/images/logo.jpg" alt="rolling records">
+      </a>
+      <div class="btn-group mobile" role="group" aria-label="...">
+        <a href="#menu-toggle" class="btn btn-xs btn-inverse" id="menu-toggle">Genres</a>
+      </div>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="nav1">
+      <ul class="nav navbar-nav">
+        <li class="desktop"><a href="/"><i class="fa fa-home" aria-hidden="true"></i><span class="sr-only">(current)</span></a></li>
+        <li><a href="/lp:t?category=Uudet&genre=Kaikki&page=1">Uudet Lp:t</a></li>
+        <li><a href="/lp:t?category=Käytetyt&genre=Kaikki&page=1">Käytetyt Lp:t</a></li>
+        <li><a href="/lp:t?category=Tarjoukset&genre=Kaikki&page=1">Tarjoukset</a></li>
+        <li><a href="/lp:t?category=Tulevat&genre=Kaikki&page=1">Tulevat Lp:t</a></li>
+        <li><a href="/lp:t?category=Oheistarvikkeet&genre=Oheistarvikkeet&page=1">Oheistarvikkeet</a></li>
+        <li class="desktop"><a id="genres">Genret</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <% if(user && user.admin.isAdmin) { %>
+        <li><a href="/admin">Hallintapaneeli <i class="fa fa-dashboard fa-fw" aria-hidden="true"></i></a></li>
+        <% } if(user) { %>
+        <li><a href="/profiili/<%= user._id %>"><i class="fa fa-user" aria-hidden="true"></i> <%= user.username %></a></li>
+        <li><a href="/kayttajahallinta/kirjaudu-ulos"><i class="fa fa-sign-out" aria-hidden="true"></i> Kirjaudu ulos</a></li>
+        <% } else { %>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-sign-in"></i> Kirjaudu <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/kayttajahallinta/kirjaudu"><i class="fa fa-sign-in"></i> Kirjaudu</a></li>
+            <li><a href="/kayttajahallinta/rekisteroidy"><i class="fa fa-user-plus"></i> Rekisteröidy</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/kayttajahallinta/salasananpalautus">Palauta salasana</a></li>
+          </ul>
+        </li>
+        <% } %>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

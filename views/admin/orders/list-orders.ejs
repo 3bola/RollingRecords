@@ -1,0 +1,38 @@
+<% layout('admin') -%>
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="page-header">
+				<h2>Tilaushallinta</h2>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<a href="/admin/order?order_type=klarna" class="btn btn-default">Klarna tilaukset</a>
+			<a href="/admin/order?order_type=nouto-myymalasta" class="btn btn-default">Mymälään maksettavat tilaukset</a>
+			<% orders.forEach(function(order) { %>
+			<a href="/admin/order/<%= order._id %>">
+				<div class="media">
+					<div class="col-md-2">
+						<div class="media-left">
+							<img class="media-object img-responsive" src="/images/order.png" alt="tilaus">
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div class="media-body">
+							<h4 class="media-heading">Tilaus numero: <%= order.order_number%></h4>
+							<p><strong>Kokonaishinta:</strong> <strong><%= order.setPriceTag(order.payment.total_price_including_tax) %></strong> | <strong>Maksutapa: <%= order.payment_method %></strong></p>
+							<p><em>Tilauksen tila: </em><strong><%= order.status === "pending" ? "Vastaanotettu" : order.status === "recieved" ? "Käsittelyssä" : order.status === "delivered" ? "Toimitettu" : "Valmis noudettavaksi" %></strong></p>
+								<p><em><strong>Viimeksi muokattu:</strong> <%= moment(order.updatedAt).format('DD.MMMM.YYYY hh:mm a') %></em></p>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<a href="/admin/order/<%= order._id %>" class="btn btn-info">Katsele</a>
+					</div>
+				</div>
+			</a>
+			<% }); %>
+		</div>
+	</div>
+</div>

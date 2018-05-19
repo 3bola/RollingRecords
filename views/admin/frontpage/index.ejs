@@ -1,0 +1,268 @@
+<% layout('admin') -%>
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="page-header">
+				<h2 id="resultHeader"><i class="fa fa-music" aria-hidden="true"></i> Muokkaa Etusivua <small class="pull-right"><i class="fa fa-calendar" aria-hidden="true"></i> <%= moment(Date.now()).locale("fi").format('DD.MM.YYYY') %></small></h2>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="btn-group" role="group">
+						<a href="/admin/frontpage?perPage=5" class="btn btn-default">5</a>
+						<a href="/admin/frontpage?perPage=10" class="btn btn-default">10</a>
+						<a href="/admin/frontpage?perPage=15" class="btn btn-default">15</a>
+						<a href="/admin/frontpage?perPage=20" class="btn btn-default">21</a>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Suodatus <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							<li><a href="/admin/frontpage?page=1&SortByCreatedAt=-1">Uusimmat ensin</a></li>
+							<li><a href="/admin/frontpage?page=1&SortByCreatedAt=1">Vanhimmat ensin</a></li>
+							<li><a href="/admin/frontpage?page=1&SortByTitle=1">Aakkosittain Artistin mukaan A - Z</a></li>
+							<li><a href="/admin/frontpage?page=1&SortByTitle=-1">Aakkosittain Artistin mukaan Z - A</a></li>
+							<li><a href="/admin/frontpage?page=1&SortByPrice=-1">Kalleimmat ensin</a></li>
+							<li><a href="/admin/frontpage?page=1&SortByPrice=1">Halvimmat ensin</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="/admin/frontpage?page=1&Quantity=0">Nolla tuotteet</a></li>
+							<li><a href="/admin/frontpage?page=1&SortByQuantity=-1">Eniten varstossa</a></li>
+							<li><a href="/admin/frontpage?page=1&SortByQuantity=1">Vähiten varastossa</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<form id="adminSearchForm2" class="inline-form" action="/admin/frontpage?page=1" method="GET">
+        				<div class="form-group col-md-10">
+          					<input type="search" class="form-control" name="search" placeholder="Hae levyjä..." id="adminSearchTerm">
+          					<input type="hidden" name="page" value="1">
+        				</div>
+        				<div class="form-group col-md-1">
+        					<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+        				</div>
+      				</form>
+				</div>
+				<div class="col-md-4">
+					<div class="btn-group">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Kategoriat <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							<li><a href="/admin/frontpage?page=1&category=Uudet">Uudet Lp:t</a></li>
+							<li><a href="/admin/frontpage?page=1&category=Käytetyt">Käytetyt Lp:t</a></li>
+							<li><a href="/admin/frontpage?page=1&category=Tarjoukset">Tarjous Lp:t</a></li>
+							<li><a href="/admin/frontpage?page=1&category=Tulevat">Tulevat Lp:t</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="/admin/frontpage?page=1&category=Oheistarvikkeet">Oheistarvikkeet</a></li>
+						</ul>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Genret <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							<li><a href="/admin/frontpage?page=1&genre=Rock&page=1">Rock</a></li>
+							<li><a href="/admin/frontpage?page=1&genre=Kotimainen&page=1">Kotimainen</a></li>
+							<li><a href="/admin/frontpage?page=1&genre=Heavy-metal&page=1">Heavy & Metal</a></li>
+							<li><a href="/admin/frontpage?page=1&genre=Blues&page=1">Blues</a></li>
+							<li><a href="/admin/frontpage?page=1&genre=Jazz&page=1">Jazz</a></li>
+							<li><a href="/admin/frontpage?page=1&genre=Rock-roll&page=1">Rock and Roll</a></li>
+							<li><a href="/admin/frontpage?page=1&genre=Punk-hardcore&page=1">Punk & Hardcore</a></li>
+							<li><a href="/admin/frontpage?page=1&genre=Svart-records&page=1">Svart Records</a></li>
+							<li><a href="/admin/frontpage?page=1&genre=Funk-soul&page=1">Funk & Soul</a></li>
+							<li><a href="/admin/frontpage?page=1&genre=Indie-alternative&page=1">Indie & Alternative</a></li>
+							<li><a href="/admin/frontpage?page=1&genre=HipHop&page=1">Hip Hop</a></li>
+							<li><a href="/admin/frontpage?page=1&genre=Electronic&page=1">Electronic</a></li>
+							<li><a href="/admin/frontpage?page=1&genre=Folk-country&page=1">Folk & Country</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div id="productGrid" class="col-md-10 col-md-offset-1">
+			<% products.forEach(function(product) { %> 
+				<div class="productlist col-md-10 <%= product.total_quantity === 0 ? 'danger' : 'default' %>">
+					<div class="col-md-2">
+						<img class="img-responsive" src="<%= product.cover %>" alt="<%= product.title %> - <%= product.name %>">
+					</div>
+					<div class="col-md-6 clearfix">
+						<h4><%= product.title %></h4>
+						<h4><%= product.name %></h4>
+						<p class="pull-right"><strong><%= product.category %></strong> <%= product.year !== 0 ? product.year : "" %>, <%= product.label %></p>
+						<h4 class="pull-left"><%= Number.isInteger(product.unit_price) ? product.unit_price + '.00 €' : product.unit_price + '0 €' %></h4>
+					</div>
+					<div class="col-md-4 edit-product-buttons">
+						<form action="/admin/frontpage/<%= product._id%>?_method=PUT" method="POST">
+							<button class="btn btn-primary" type="submit"><%= product.front_page === false ? "Lisää etusivulle" : "Poista etusivulta" %></button>
+						</form>
+					</div>
+				</div>
+			<% }); %>
+		</div>
+	</div>
+	<div class="row">
+		<nav>
+			<div class="col-md-6 col-md-offset-3 text-center">
+          		<p>Sivu <%= pages.current%> / <%= pages.total %> sivusta</p>
+          		<p>Tuotteita yhteensä <%= items.total %> kpl</p>
+				<ul class="pagination pagination-lg">
+					<% if(pages.current > 1 && pages.hasPrev === true && category !== "") { %>
+					<li>
+						<a class="btn btn-xs" href="/admin/product?page=<%= pages.first %>&category=<%= category %>" aria-label="Previous">
+							<span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<li>
+						<a class="btn btn-xs" href="/admin/frontpage?page=<%= pages.prev %>&category=<%= category %>" aria-label="Previous">
+							<span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<% } if(pages.current > 1 && pages.hasPrev === true && genre !== "") { %>
+					<li>
+						<a class="btn btn-xs" href="/admin/frontpage?page=<%= pages.first %>&genre=<%= genre %>" aria-label="Previous">
+							<span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<li>
+						<a class="btn btn-xs" href="/admin/frontpage?page=<%= pages.prev %>&genre=<%= genre %>" aria-label="Previous">
+							<span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<% } if(pages.current > 1 && pages.hasPrev === true && search !== "") { %>
+					<li>
+						<a class="btn btn-xs" href="/admin/frontpage?page=<%= pages.first %>&search=<%= search %>" aria-label="Previous">
+							<span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<li>
+						<a class="btn btn-xs" href="/admin/frontpage?page=<%= pages.prev %>&search=<%= search %>" aria-label="Previous">
+							<span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<% } if(pages.current > 1 && pages.hasPrev === true && Quantity !== -1) { %>
+					<li>
+						<a class="btn btn-xs" href="/admin/frontpage?page=<%= pages.first %>&Quantity=<%= Quantity %>" aria-label="Previous">
+							<span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<li>
+						<a class="btn btn-xs" href="/admin/frontpage?page=<%= pages.prev %>&Quantity=<%= Quantity %>" aria-label="Previous">
+							<span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<% } if(pages.current > 1 && pages.hasPrev === true && category === "" && genre === "" && search === "" && Quantity === -1) { %>
+					<li>
+						<a class="btn btn-xs" href="/admin/frontpage?page=<%= pages.first %>" aria-label="Previous">
+							<span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<li>
+						<a class="btn btn-xs" href="/admin/frontpage?page=<%= pages.prev %>" aria-label="Previous">
+							<span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<% } if(pages.current === 1 && pages.hasPrev === false) { %>
+					<li>
+						<a class="btn btn-xs disabled" aria-label="Previous">
+							<span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<li>
+						<a class="btn btn-xs disabled" aria-label="Previous">
+							<span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<% } %>
+					<li>
+						<% pages.visiblePages.forEach(function(page) { %>
+						<% if(category !== "") { %> 
+						<li><a class="btn btn-xs" href="/admin/frontpage?page=<%= page %>&category=<%= category %>"><%= page %></a></li>
+						<% } if(genre !== "") { %> 
+						<li><a class="btn btn-xs" href="/admin/frontpage?page=<%= page %>&genre=<%= genre %>"><%= page %></a></li>
+						<% } if(search !== "") { %> 
+						<li><a class="btn btn-xs" href="/admin/frontpage?page=<%= page %>&search=<%= search %>"><%= page %></a></li>
+						<% } if(Quantity !== -1) { %> 
+						<li><a class="btn btn-xs" href="/admin/frontpage?page=<%= page %>&Quantity=<%= Quantity %>"><%= page %></a></li>
+						<% } if(genre === "" && category === "" && search === "" && Quantity === -1) { %>
+						<li><a class="btn btn-xs" href="/admin/frontpage?page=<%= page %>"><%= page %></a></li>
+						<% } %>
+						<% }); %>
+					</li>
+					<% if(pages.current < pages.total && pages.hasNext === true && category !== "") { %>
+					<li>
+						<a class="btn btn-xs" href="/admin/frontpage?page=<%= pages.next %>&category=<%= category %>" aria-label="Next">
+							<span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<li>
+						<a class="btn btn-xs" href="/admin/frontpage?page=<%= pages.last %>&category=<%= category %>" aria-label="Next">
+							<span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<% } if(pages.current < pages.total && pages.hasNext === true && genre !== "") { %>
+					<li>
+						<a class="btn btn-xs" href="/admin/frotpage?page=<%= pages.next %>&genre=<%= genre %>" aria-label="Next">
+							<span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<li>
+						<a class="btn btn-xs" href="/admin/frotpage?page=<%= pages.last %>&genre=<%= genre %>" aria-label="Next">
+							<span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<% } if(pages.current < pages.total && pages.hasNext === true && search !== "") { %>
+					<li>
+						<a class="btn btn-xs" href="/admin/frotpage?page=<%= pages.next %>&search=<%= search %>" aria-label="Next">
+							<span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<li>
+						<a class="btn btn-xs" href="/admin/frontpage?page=<%= pages.last %>&search=<%= search %>" aria-label="Next">
+							<span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<% } if(pages.current < pages.total && pages.hasNext === true && Quantity !== -1) { %>
+					<li>
+						<a class="btn btn-xs" href="/admin/frontpage?page=<%= pages.next %>&Quantity=<%= Quantity %>" aria-label="Next">
+							<span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<li>
+						<a class="btn btn-xs" href="/admin/frontpage?page=<%= pages.last %>&Quantity=<%= Quantity %>" aria-label="Next">
+							<span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<% } if(pages.current < pages.total && pages.hasNext === true && genre === "" && search === "" && category === "" && Quantity === -1) { %>
+					<li>
+						<a class="btn btn-xs" href="/admin/frontpage?page=<%= pages.next %>" aria-label="Next">
+							<span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<li>
+						<a class="btn btn-xs" href="/admin/frontpage?page=<%= pages.last %>" aria-label="Next">
+							<span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<% } if(pages.current === pages.total && pages.hasNext === false) { %>
+					<li>
+						<a class="btn btn-xs disabled" aria-label="Next">
+							<span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+						</a>
+					</li>
+					<li>
+						<a class="btn btn-xs disabled" aria-label="Next">
+							<span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+						</a>
+					</li>
+    				<% } %>
+				</ul>
+			</div>
+		</nav>	
+	</div>
+</div>

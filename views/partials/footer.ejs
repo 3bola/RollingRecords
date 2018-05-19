@@ -1,0 +1,70 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-4 col-sm-12 col-xs-12">
+			<h3>Rolling Records Tmi</h3>
+			<p><a href="/asiakaspalvelu"><strong>Asiakaspalvelu</strong></a></p>
+			<p><i class="fa fa-envelope" aria-hidden="true"></i> rollingrecords@outlook.com</p>
+			<p>Y-tunnus: 2698592-8</p>
+			<div class="col-md-8 col-md-offset-2">
+				<img class="img-responsive" src="https://cdn.klarna.com/1.0/shared/image/generic/badge/fi_fi/checkout/short-blue.png?width=312" alt="maksutavat: Klarna tili, Klarna lasku, Visa, Mastercard, Verkkopankki maksu">
+			</div>
+		</div>
+		<div class="col-md-8 col-sm-12 col-xs-12">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<h3>Myymälät</h3>
+			</div>
+			<div class="col-md-6 col-sm-12 col-xs-12">
+				<h4>Helsinki, Sörnäinen</h4>
+				<p><i class="fa fa-phone" aria-hidden="true"></i>  +358 50 344 55 39</p>
+				<p><i class="fa fa-map-marker" aria-hidden="true"></i> <a data-toggle="modal" data-target="#locationMapModal">Vaasanpolku 3, liikehuoneisto 6</a></p>
+				<p>00500, Helsinki</p>
+				<h4>Aukioloajat</h4>
+				<p>ma - pe: 11 - 18</p>
+				<p>la: 11 - 16</p>
+				<p>su: 12 - 16</p>
+			</div>
+			<div class="col-md-6 col-sm-12 col-xs-12">
+				<h4>Tampere, Keskusta</h4>
+				<p><i class="fa fa-phone" aria-hidden="true"></i>  +358 50 328 79 23</p>
+				<p><i class="fa fa-map-marker" aria-hidden="true"></i> Kauppakatu 5</p>
+				<p>33200, Tampere</p>
+				<h4>Aukioloajat</h4>
+				<p>ma - pe: 11 - 18</p>
+				<p>la: 11 - 16</p>
+				<p>su: Suljettu</p>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal with location map -->
+<div class="modal fade" id="locationMapModal" tabindex="-1" role="dialog" aria-labelledby="locationMapModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3>Sijainti</h3>
+      </div>
+      <div class="modal-body">
+      	<h4>Kartta</h4>
+        <div id="map"></div>
+		<script>
+			function initMap() {
+				var GPS = {lat: 60.188009, lng: 24.961134};
+				var map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 13,
+					center: GPS
+				});
+				var marker = new google.maps.Marker({
+					position: GPS,
+					map: map
+				});
+			}
+		</script>
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgl6vtefd_47RRbAhrxbgokcDG4M7j0gs&callback=initMap"></script>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
