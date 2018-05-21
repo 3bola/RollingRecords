@@ -9,7 +9,6 @@ const compression 			= require('compression');
 const bodyParser 			= require('body-parser');
 const sanitizer 			= require('express-sanitizer');
 const methodOverRide 		= require('method-override');
-const sqlInjection 			= require('sql-injection');
 const cookieParser 			= require('cookie-parser');
 const session 				= require('express-session');
 const mongoStore			= require('connect-mongo')(session);

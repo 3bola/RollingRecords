@@ -59,13 +59,11 @@
     "npm": "^5.6.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "raw-body": "^2.3.3",
     "read-chunk": "^2.1.0",
     "request": "^2.83.0",
     "sanitize-html": "^1.16.3",
     "serve-favicon": "^2.4.5",
-    "socket.io": "^2.0.4",
-    "sql-injection": "0.0.6"
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {
     "dotenv": "^4.0.0",

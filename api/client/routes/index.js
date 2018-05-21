@@ -1,6 +1,7 @@
 "use strict";
 const express = require('express');
 const router = express.Router();
+const middlewareObj = require('../middleware/middlewareObj');
 const indexCtrl = require('../controllers/indexCtrl');
 const productCtrl = require('../controllers/productCtrl');
 // landingpage
