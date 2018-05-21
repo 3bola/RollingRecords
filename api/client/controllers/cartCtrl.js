@@ -53,8 +53,13 @@ module.exports.AjaxCart = (req, res, next) => {
 //Add items to the cart
 module.exports.addProduct = (req, res, next) => {
   Cart.findById(req.params.id, (err, foundCart) => {
+    console.log(foundCart.items.map(function(item) { return item.item_id; }).indexOf(req.body.id) >= 0);
     if(err || !foundCart) {
       return res.send("error");
+    } else if(foundCart.items.map(function(item) { return item.item_id; }).indexOf(req.body.id) >= 0) {
+      return res.json({
+        "message": "Kyseinen tuote on jo olemassa ostoskorissanne!"
+      });
     } else {
        let bonus_system = {
           coupon_id: foundCart.bonus_system.coupon_id,
@@ -88,7 +93,9 @@ module.exports.addProduct = (req, res, next) => {
       foundCart.total = (foundCart.total + Number(req.body.total_quantity));
       foundCart.save((err, savedCart)=> {
         if(err) {
-          return res.send("error");
+          return res.json({
+            "message": 'Ostoskoria ei voitu löytää, tai lisätä siihen tuotetta / tuotteita.'
+          });
         } else {
           req.session.cart = savedCart;
           res.json(savedCart);
@@ -432,6 +439,18 @@ module.exports.postConfirmation = (req, res, next) => {
                             removedLocation = foundProduct.stores.splice(locationIndex, 1);
                             newStoreInfo.location = removedLocation[0].location;
                             newStoreInfo._id = removedLocation[0]._id;
+                            if(Number(removedLocation[0].quantity) - Number(item.quantity) < 0) {
+                              newStoreInfo.quantity = 0;
+                              var remainder =  Number(item.quantity) - Number(removedLocation[0].quantity);
+                              foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
+                              var newStoreInfo2 = {};
+                              var locationIndex2 = foundProduct.stores.map(function(store) { return store.location; }).indexOf("Tampere, Keskusta");
+                              var removedLocation2 = foundProduct.stores.splice(locationIndex2, 1);
+                              newStoreInfo2.location = removedLocation2[0].location;
+                              newStoreInfo2._id = removedLocation2[0]._id;
+                              newStoreInfo.quantity = Number(removedLocation2[0].quantity) - remainder;
+                              foundProduct.stores.splice(locationIndex2, 0, newStoreInfo2);
+                            }
                             newStoreInfo.quantity = Number(removedLocation[0].quantity) - Number(item.quantity);
                             foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
                           } else if(foundProduct.stores.length > 1 && newOrder.pickup_store === "Tampere, Keskusta") {
@@ -441,6 +460,18 @@ module.exports.postConfirmation = (req, res, next) => {
                             removedLocation = foundProduct.stores.splice(locationIndex, 1);
                             newStoreInfo.location = removedLocation[0].location;
                             newStoreInfo._id = removedLocation[0]._id;
+                             if(Number(removedLocation[0].quantity) - Number(item.quantity) < 0) {
+                              newStoreInfo.quantity = 0;
+                              var remainder =  Number(item.quantity) - Number(removedLocation[0].quantity);
+                              foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
+                              var newStoreInfo2 = {};
+                              var locationIndex2 = foundProduct.stores.map(function(store) { return store.location; }).indexOf("Tampere, Keskusta");
+                              var removedLocation2 = foundProduct.stores.splice(locationIndex2, 1);
+                              newStoreInfo2.location = removedLocation2[0].location;
+                              newStoreInfo2._id = removedLocation2[0]._id;
+                              newStoreInfo.quantity = Number(removedLocation2[0].quantity) - remainder;
+                              foundProduct.stores.splice(locationIndex2, 0, newStoreInfo2);
+                            }
                             newStoreInfo.quantity = Number(removedLocation[0].quantity) - Number(item.quantity);
                             foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
                           } else if(foundProduct.stores.length === 1){

@@ -4,6 +4,7 @@ const router 		= express.Router();
 const passport 		= require('passport');
 const passportConf 	= require('../../config/passport');
 const authObj 		= require('../middleware/authObj');
+const middlewareObj = require('../middleware/middlewareObj');
 const authCtrl 		= require('../controllers/authCtrl');
 // "/auth/signup"
 router

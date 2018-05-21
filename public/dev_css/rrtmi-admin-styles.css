@@ -168,9 +168,9 @@ section #social-signin p {
     border-left: 1px solid #e7e7e7;
 }
 /* Notification styles */
-.media, 
-.media .media-left,
-.media .media-body {
+.notification, 
+.notification .media-left,
+.notification .media-body {
   height: 75px;
 }
 .media .col-md-3 form {

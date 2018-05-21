@@ -128,7 +128,7 @@ $(document).ready(function() {
 			genre: genre
 		};
 		$.post("/ostoskori/"+cartId, product, function(response) {
-			if(response !== "error") {
+			if(!response.message) {
 				$("#success").html(`
 					<div class="alert alert-success alert-dismissible fade in" role="alert">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -147,7 +147,7 @@ $(document).ready(function() {
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
             				<span aria-hidden="true">&times;</span>
           				</button>
-						<p>Ostoskoria ei voitu löytää, tai lisätä siihen tuotetta / tuotteita.</p>
+						<p>${response.message}</p>
 					</div>
 				`);
 			}

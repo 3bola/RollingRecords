@@ -6,8 +6,8 @@
 		socket.on("new-notification", function(newNotification, count) {
 	 		$("#stockNf").html(count);
 			$("#notificationsList").append(`
-				<li class="media">
-					<a href="${newNotification.newContact === true ? '/' : '/admin/'}${newNotification.newContact === true ? 'contact' : notification}/${newNotification._id}">
+				<li class="media notification">
+					<a href="/admin/${newNotification.newContact === true ? 'asiakaspalvelu' : `/${newNotification._id}`}">
 						<div class="col-md-2">
 							<div class="media-left">
 								<img class="img-responsive" src="/images/notification.png">
@@ -37,7 +37,7 @@
 				allNotifications.forEach(function(notification) {
 					$("#notificationsList").append(`
 						<li class="media">
-							<a href="/admin/notification/${notification._id}">
+							<a href="/admin/${notification.newContacts === true ? 'asiakaspalvelu' : `/${notification._id}`}">
 								<div class="col-md-2">
 									<div class="media-left">
 										<img class="img-responsive" src="/images/notification.png">

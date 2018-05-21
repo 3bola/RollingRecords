@@ -9,6 +9,7 @@ const compression 			= require('compression');
 const bodyParser 			= require('body-parser');
 const sanitizer 			= require('express-sanitizer');
 const methodOverRide 		= require('method-override');
+const sqlInjection 			= require('sql-injection');
 const cookieParser 			= require('cookie-parser');
 const session 				= require('express-session');
 const mongoStore			= require('connect-mongo')(session);
@@ -38,6 +39,7 @@ const productRoutes 		= require('./api/client/routes/product');
 const cartRoutes 			= require("./api/client/routes/cart");
 //Admin routes
 const adminRoutes 			= require('./api/admin/routes/admin');
+const adminContactRoutes 	= require('./api/admin/routes/contact');
 const adminProductRoutes 	= require('./api/admin/routes/product');
 const adminOrderRoutes 		= require('./api/admin/routes/order');
 const adminDCRoutes 		= require('./api/admin/routes/deliverycost');
@@ -94,6 +96,7 @@ if (app.get('env') == 'Websiteion') {
 } else {
   app.use(morgan('dev'));
 }
+app.use(sqlInjection);
 //Set sendmail ServerData
 app.use((req, res, next) => {
 	var SetServerData = require("./api/data/sendMail");
@@ -262,6 +265,7 @@ app.use("/lp:t", productRoutes);
 app.use("/ostoskori", cartRoutes);
 // admin routes
 app.use("/admin", adminRoutes);
+app.use("/admin/asiakaspalvelu", adminContactRoutes);
 app.use("/admin/product", adminProductRoutes);
 app.use("/admin/deliverycost", adminDCRoutes);
 app.use("/admin/order", adminOrderRoutes);

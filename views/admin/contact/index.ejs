@@ -1,0 +1,36 @@
+<% layout('admin') -%>
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="page-header">
+				<h2>Yhteydenottopyynnöt</h2>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<% contacts.forEach(function(contact) { %>
+				<a href="/admin/asiakaspalvelu/<%= contact._id %>">
+					<div class="media">
+						<div class="col-md-2">
+							<div class="media-left">
+    							<img class="media-object img-responsive" src="/images/notification.png" alt="tilaus">
+							</div>
+						</div>
+						<div class="col-md-8">
+							<div class="media-body">
+								<h4 class="media-heading">Nimi: <%= contact.fullname %></h4>
+								<p><strong>Aihe:</strong> <strong><%= contact.subject %></strong></p>
+								<p><strong>luotu: <%= moment(contact.createdAt).calendar() %></strong> | <em>Tila: </em><strong><%= contact.status === "recieved" ? "Vastaanotettu" : "Käsitelty" %></strong></p>
+  								<p><em><strong>Viimeksi muokattu:</strong> <%= moment(contact.updatedAt).format('DD.MMMM.YYYY hh:mm a') %></em></p>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<a href="/admin/asiakaspalvelu/<%= contact._id %>" class="btn btn-info">Katsele</a>
+						</div>
+					</div>
+				</a>
+			<% }); %>
+		</div>
+	</div>
+</div>

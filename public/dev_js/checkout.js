@@ -33,7 +33,7 @@ $(document).ready(function() {
 		var dc_unit_price;
 		var tabsMenuItem = $(".tabsMenuItem");
 		var dc_id = {
-			id: "5ae82c7ac91983155b4d0227"
+			id: ""
 		};
 		function removeActiveClasses(id) {
 			for(var i = 0; i < tabs.length; i++) {

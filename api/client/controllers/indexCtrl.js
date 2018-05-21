@@ -28,13 +28,14 @@ module.exports.customerservice = (req, res, next) => {
 };
 //customer service messages
 //post new message
-module.exports.customerservicePost = (req, res, next) => {
+module.exports.createContact = (req, res, next) => {
 	let newContact = {
 		fullname: req.body.fullname,
 		email: req.body.email,
 		phone: req.body.phone,
 		subject: req.body.subject,
-		message: req.body.message
+		message: req.body.message,
+		owner: req.user ? req.user : null
 	};
 	if(newContact.fullname !== "" && newContact.email !== "" && newContact.subject !== "" && newContact.message !== "") {
 		Contact.create(newContact, (err, contact) => {
@@ -49,7 +50,7 @@ module.exports.customerservicePost = (req, res, next) => {
 	}
 };
 //read message
-module.exports.openMessage = (req, res, next) => {
+module.exports.getContact = (req, res, next) => {
 	Contact.findById(req.params.id, (err, foundContact) => {
 		if(err || !foundContact) {
 			req.flash("error", "Valitettavasti tällä hetkellä tietokantaan on yhteyskatkos.");
@@ -74,3 +75,7 @@ module.exports.customerLoyaltyConditions = (req, res, next) => {
 	res.render("static_pages/customerLoyaltyConditions.ejs");
 };
 //US0y,eXeERs
+//Cookies policy page
+module.exports.cookiesPolicy = (req, res, next) => {
+	res.render("static_pages/cookies-policy.ejs");
+};
