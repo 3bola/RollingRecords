@@ -96,7 +96,6 @@ if (app.get('env') == 'Websiteion') {
 } else {
   app.use(morgan('dev'));
 }
-app.use(sqlInjection);
 //Set sendmail ServerData
 app.use((req, res, next) => {
 	var SetServerData = require("./api/data/sendMail");
