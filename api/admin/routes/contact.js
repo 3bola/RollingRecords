@@ -11,6 +11,7 @@ router
 router
 	.route("/:id")
 	.get(adminAuthObj.isAdmin, adminContactCtrl.getContact)
-	.put(adminAuthObj.isAdmin, adminContactCtrl.updateContact)
+	.put(adminAuthObj.isAdmin, adminContactCtrl.addReply)
+	.patch(adminAuthObj.isAdmin, adminContactCtrl.updateContact)
 	.delete(adminAuthObj.isAdmin, adminContactCtrl.removeContact);
 module.exports = router;

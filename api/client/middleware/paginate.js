@@ -79,7 +79,7 @@ function init(req, res, done) {
 	else if(titleObj.genre === "Kaikki" && titleObj.category !== "Kaikki") {
 		if(titleObj.SortByCreatedAt.length) {
 			if(titleObj.SortByCreatedAt === "Viimeisimmät lisäykset") {
-				title = titleObj.category === "Oheistarvikkeet" ? titleObj.category+" uusimmasta vanhimapaan" : titleObj.category + " Lp:t uusimmasta vanhimapaan";
+				title = titleObj.category === "Oheistarvikkeet" ? titleObj.category+" uusimmasta vanhimpaan" : titleObj.category + " Lp:t uusimmasta vanhimpaan";
 			}
 			else {
 				title = titleObj.category === "Oheistarvikkeet" ? titleObj.category+" vanhimmasta uusimpaan" : titleObj.category + " Lp:t vanhimmasta uusimpaan";
@@ -108,7 +108,7 @@ function init(req, res, done) {
 	else if(titleObj.genre !== "Kaikki" && titleObj.category === "Kaikki") {
 		if(titleObj.SortByCreatedAt.length) {
 			if(titleObj.SortByCreatedAt === "Viimeisimmät lisäykset") {
-				title = titleObj.category === "Oheistarvikkeet" ? titleObj.category+" uusimmasta vanhimapaan" : titleObj.genre + " Lp:t uusimmasta vanhimapaan";
+				title = titleObj.category === "Oheistarvikkeet" ? titleObj.category+" uusimmasta vanhimpaan" : titleObj.genre + " Lp:t uusimmasta vanhimpaan";
 			}
 			else {
 				title = titleObj.category === "Oheistarvikkeet" ? titleObj.category+" vanhimmasta uusimpaan" : titleObj.genre + " Lp:t vanhimmasta uusimpaan";
@@ -137,7 +137,7 @@ function init(req, res, done) {
 	else {
 		if(titleObj.SortByCreatedAt.length) {
 			if(titleObj.SortByCreatedAt === "Viimeisimmät lisäykset") {
-				title = titleObj.category === "Oheistarvikkeet" ? titleObj.category+" uusimmasta vanhimapaan" : titleObj.category + " " + titleObj.genre + " Lp:t uusimmasta vanhimapaan";
+				title = titleObj.category === "Oheistarvikkeet" ? titleObj.category+" uusimmasta vanhimpaan" : titleObj.category + " " + titleObj.genre + " Lp:t uusimmasta vanhimpaan";
 			}
 			else {
 				title = titleObj.category === "Oheistarvikkeet" ? titleObj.category+" vanhimmasta uusimpaan" : titleObj.category + " " + titleObj.genre + " Lp:t vanhimmasta uusimpaan";
@@ -267,7 +267,7 @@ module.exports.paginateItems = (req, res, items, next) => {
 	init(req, res, ((err, done) => {
 		if(done) {
 			if(queryString !== "") {
-				items.find({$or: [{'title': queryString}, {'name': queryString}, {'label': queryString}, {'ean': queryString}, {'fullname': queryString}]})
+				items.find({$or: [{'title': queryString, 'status': "available"}, {'name': queryString, 'status': "available"}, {'label': queryString, 'status': "available"}, {'ean': queryString, 'status': "available"}, {'fullname': queryString, 'status': "available"}]})
 				.skip((page - 1) * perPage)
 				.limit(perPage)	
 				.sort(sortObj)

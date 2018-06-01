@@ -125,10 +125,10 @@ module.exports.sendPasswordRecoveryToken = (req, res, user, next) => {
 		subject: 'Salasanan palautus linkki',
 		html: `
 			<h1>${user.name.firstname} ${user.name.lastname}</h1>
-			<h3>Lähetämme ohessa salasanan palautus linkin, voitte palauttaa salasananne klikkaamalla linkkiä tai kopioimalla se selaimeenne.</h3>
+			<h3>Lähetämme ohessa salasanan palautuslinkin, voitte palauttaa salasananne klikkaamalla linkkiä tai kopioimalla se selaimeenne.</h3>
 			<p>Palauta salasana: </p>
 			<a href="${req.protocol}://${req.headers.host}/kayttajahallinta/salasananpalautus/${user.resetPasswordToken}">www.rollingrecords.fi/kayttajahallinta/salasananpalautus/${user.resetPasswordToken}</a>
-			<p>Jos ette ole pyytäneet salasanan palutusta tähän sähköpostiosoitteeseen, voitte vain poistaa tämän viestin.</p>
+			<p>Jos ette ole pyytäneet salasanan palautusta tähän sähköpostiosoitteeseen, voitte vain poistaa tämän viestin.</p>
 			<p>Halutessanne voitte myös olla yhteydessä <a href="${req.protocol}://${req.headers.host}/asiakaspalvelu">asiakaspalveluumme</a></p>
 			<p>Tämä on automaattinen viesti, ethän vastaa tähän viestiin.</p>
 			<p>Ystävällisin Terveisin, </p>
@@ -157,7 +157,7 @@ module.exports.confirmationOnPwChange = (req, res, user, next) => {
 		html: `
 			<h1>${user.name.firstname} ${user.name.lastname}</h1>
 			<h3>Salasananne on onnistuneesti vaihdettu.</h3>
-			<p>Voitte nyt kirjautua asiakastilillenne käyttäen uutta salasanaanne ja sähköpostiosoitettanne.</p>
+			<p>Voitte nyt kirjautua asiakastilillenne käyttäen uutta salasanaanne ja sähköpostiosoitetta.</p>
 			<p>Mikäli ette ole salasanaa vaihtaneet, pyydämme teitä olemaan välittömästi yhteydessä <a href="${req.protocol}://${req.headers.host}/asiakaspalvelu">asiakaspalveluumme</a>.</p>
 			<p>Muussa tapauksessa toivotamme teille mukavia hetkiä valikoimamme parissa.</p>
 			<p>Tämä on automaattinen viesti, ethän vastaa tähän viestiin.</p>
@@ -347,7 +347,37 @@ module.exports.sendPaidOrderVerificationEmail = (req, res, user, order, next) =>
   		}
 	});
 };
-//Send message for admins that there
+// send contact reply message to the customer
+module.exports.sendContactReplyConfirmation = (req, res, contact, next) => {
+	let email = {
+		from: `Rolling Records <rollingrecords@outlook.com>`,
+		to: contact.email,
+		subject: `Vastaus yhteydenottopyyntöönne, ${contact.subject}`,
+		html: `
+			<h1>${contact.fullname}, </h1>
+			<h3>Tämä on ilmoitus siitä, että teidän yhteydenottopyyntöönne on vastattu.</h3>
+			<p>Voitte käydä lukemassa profiili sivultanne kohdasta yhteydenoottopyynöt,</p>
+			<p>tai klikkaamalla ohessa olevaa <strong><a href="${req.protocol}://${req.headers.host}/profiili/${contact.owner}">linkkiä</a></strong></p>
+			<p>Tämä on automaattinen viesti, ethän vastaa tähän viestiin.</p>
+			<p>Ystävällisin Terveisin, </p>
+			<p>Rolling Records</p>
+			<p>puh: +358 (0)50 344 55 39 </p>
+			<p>email: rollingrecords@outlook.com</p>
+			<p>www.rollingrecords.fi</p>
+		`
+	};
+	mailer.sendMail(email, (err, info)  => {
+		if(err) {
+			console.log('Error: ' + err);
+    		return next();
+  		} else {
+    		console.log('Response: ' + info);
+    		return next();
+  		}
+	});
+};
+//Massages that are sent to admins only
+//Message that notifies about new order
 module.exports.sendNotificationOnNewOrder = (req, res, order, user, next) => {
 	const mail_list = ["rolling.tampere@outlook.com", "rolling.sornainen@outlook.com"];
 	let email = {
@@ -355,7 +385,7 @@ module.exports.sendNotificationOnNewOrder = (req, res, order, user, next) => {
 		to: mail_list,
 		subject: `Uusi tilaus on luotu, nro. ${order.order_number}`,
 		html: `
-			<h1>${order.pickup_store === 'posti' ? 'Tomitustapa: Postipaketti': 'Toimitustapa: nouto myymälästä: '+order.pickup_store}</h1>
+			<h1>${order.pickup_store === 'posti' ? `Tomitustapa: Postipaketti, Lähetys ${order.delivery_store} myymälästä` : 'Toimitustapa: nouto myymälästä: '+order.pickup_store}</h1>
 			<h3>Tilauksen tiedot:</h3>
 			<h4>Tilausnumero: ${order.order_number}</h4>
 			<h4>Asiakkaan nimi: ${order.payees_information.lastname}, ${order.payees_information.firstname}</h4>

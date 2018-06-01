@@ -53,7 +53,6 @@ module.exports.AjaxCart = (req, res, next) => {
 //Add items to the cart
 module.exports.addProduct = (req, res, next) => {
   Cart.findById(req.params.id, (err, foundCart) => {
-    console.log(foundCart.items.map(function(item) { return item.item_id; }).indexOf(req.body.id) >= 0);
     if(err || !foundCart) {
       return res.send("error");
     } else if(foundCart.items.map(function(item) { return item.item_id; }).indexOf(req.body.id) >= 0) {
@@ -234,7 +233,6 @@ module.exports.updateCart = (req, res, next) => {
 //Update total_price
 module.exports.updateCartsTotalPrice = (req, res, next) => {
   if(req.xhr && req.body.value === "KuponkiID") {
-    console.log("bonus");
     Cart.findById(req.params.id, (err, foundCart) => {
       if(err || !foundCart) {
         return res.status(404).json("cart not found");
@@ -256,7 +254,7 @@ module.exports.updateCartsTotalPrice = (req, res, next) => {
         }
        });
       }
-    }); // puh unifaun. 0753252505
+    });
   } else {
     Cart.findById(req.params.id, (err, foundCart) => {
       if(err || !foundCart) {
@@ -308,17 +306,36 @@ module.exports.checkout = (req, res, next) => {
             foundCart.bonus_system.total_price = foundCart.bonus_system.permanent_total_price;
             foundCart.bonus_system.total_price = Number(foundCart.bonus_system.permanent_total_price) === 0 ? Number(foundCart.bonus_system.total_price) = 0 : Number(foundCart.bonus_system.total_price) - 20;
             foundCart.bonus_system.stamps = parseInt(foundCart.bonus_system.total_price / 20);
-            foundCart.save((err, UpdatedCart) => {
-              if(err) {
-                req.flash("error", err.message);
-                return res.redirect("/ostoskori/"+req.params.id);
-              } else {
-                req.session.cart = UpdatedCart;
-                return res.render("cart/checkout.ejs", {
-                  cart: UpdatedCart,
-                  deliveryCosts: foundDeliveryCosts
-                });
-              }
+            foundCart.items.forEach((item) => {
+              var count = 0;
+              Product.findById(item.item._id, (err, foundProduct) => {
+                if(err || !foundProduct) {
+                  req.flash("error", "Valitettavasti tuotteita ei voitu hakea tietokannasta tekisen vian vuoksi.");
+                  return res.redirect("back");
+                } else {
+                  var locationIndex = foundProduct.stores.map(function(store) { return store.location; }).indexOf("Tampere, Keskusta");
+                  if(locationIndex.length >= foundCart.items.length) {
+                    foundCart.delivery_store = "Tampere, Keskusta";
+                  } else {
+                    foundCart.delivery_store = "Helsinki, Sörnäinen";
+                  }
+                  cunt++;
+                  if(count === foundCart.items.length) {
+                    foundCart.save((err, UpdatedCart) => {
+                      if(err) {
+                        req.flash("error", err.message);
+                        return res.redirect("/ostoskori/"+req.params.id);
+                      } else {
+                        req.session.cart = UpdatedCart;
+                        return res.render("cart/checkout.ejs", {
+                          cart: UpdatedCart,
+                          deliveryCosts: foundDeliveryCosts
+                        });
+                      }
+                    });
+                  }
+                }
+              });
             });
           }
       });
@@ -349,7 +366,6 @@ module.exports.checkout = (req, res, next) => {
 };
 //This method is used, when order has been made without payment online.
 module.exports.postConfirmation = (req, res, next) => {
-  var tempItem;
   Cart.findById(req.params.id).populate({path: "items.item", model: "Product"}).populate("delivery_cost").populate("owner").exec((err, foundCart) => {
     if(err || !foundCart) {
       req.flash("error", "Ups! Jotain meni pieleen ostoskoria haettaessa.");
@@ -373,7 +389,7 @@ module.exports.postConfirmation = (req, res, next) => {
       order.status = "pending"; //also "processing", "done" and "recived";
       order.items = order_items;
       order.pickup_store = req.session.pickup_store;
-      order.items.fullname = foundCart.items.item
+      order.items.fullname = foundCart.items.item.title + " "+foundCart.items.item.name;
       order.delivery_method = foundCart.delivery_cost;
       order.payment_method = req.body.payment_method;
       order.paid = false;
@@ -439,18 +455,18 @@ module.exports.postConfirmation = (req, res, next) => {
                             removedLocation = foundProduct.stores.splice(locationIndex, 1);
                             newStoreInfo.location = removedLocation[0].location;
                             newStoreInfo._id = removedLocation[0]._id;
-                            if(Number(removedLocation[0].quantity) - Number(item.quantity) < 0) {
-                              newStoreInfo.quantity = 0;
-                              var remainder =  Number(item.quantity) - Number(removedLocation[0].quantity);
-                              foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
-                              var newStoreInfo2 = {};
-                              var locationIndex2 = foundProduct.stores.map(function(store) { return store.location; }).indexOf("Tampere, Keskusta");
-                              var removedLocation2 = foundProduct.stores.splice(locationIndex2, 1);
-                              newStoreInfo2.location = removedLocation2[0].location;
-                              newStoreInfo2._id = removedLocation2[0]._id;
-                              newStoreInfo.quantity = Number(removedLocation2[0].quantity) - remainder;
-                              foundProduct.stores.splice(locationIndex2, 0, newStoreInfo2);
-                            }
+                            // if(Number(removedLocation[0].quantity) - Number(item.quantity) < 0) {
+                            //   newStoreInfo.quantity = 0;
+                            //   var remainder =  Number(item.quantity) - Number(removedLocation[0].quantity);
+                            //   foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
+                            //   var newStoreInfo2 = {};
+                            //   var locationIndex2 = foundProduct.stores.map(function(store) { return store.location; }).indexOf("Tampere, Keskusta");
+                            //   var removedLocation2 = foundProduct.stores.splice(locationIndex2, 1);
+                            //   newStoreInfo2.location = removedLocation2[0].location;
+                            //   newStoreInfo2._id = removedLocation2[0]._id;
+                            //   newStoreInfo.quantity = Number(removedLocation2[0].quantity) - remainder;
+                            //   foundProduct.stores.splice(locationIndex2, 0, newStoreInfo2);
+                            // }
                             newStoreInfo.quantity = Number(removedLocation[0].quantity) - Number(item.quantity);
                             foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
                           } else if(foundProduct.stores.length > 1 && newOrder.pickup_store === "Tampere, Keskusta") {
@@ -481,6 +497,9 @@ module.exports.postConfirmation = (req, res, next) => {
                             foundProduct.stores.unshift(newStoreInfo);
                           }
                           foundProduct.times_sold = foundProduct.times_sold + 1;
+                          if(foundProduct.category === "Tulevat") {
+                            foundProduct.advance_bookers.push(foundUser);
+                          }
                           foundProduct.save((err, updatedProduct) => {
                             if(err) {
                               req.flash("error", err.message);
@@ -533,7 +552,6 @@ module.exports.postConfirmation = (req, res, next) => {
 //Confiramtion
 //This method is instead used when payment is is done using Klarna.
 module.exports.getConfirmation = (req, res, next) => {
-  var tempItem;
   Cart.findById(req.params.id).populate({path: "items.item", model: "Product"}).populate("delivery_cost").populate("owner").exec((err, foundCart) => {
     if(err || !foundCart) {
       req.flash("error", "Ups! Jotain meni pieleen ostoskoria haettaessa.");
@@ -555,7 +573,7 @@ module.exports.getConfirmation = (req, res, next) => {
       order.order_number = crypto.randomBytes(10).toString('hex');
       order.status = "pending"; //also "processing", "done" and "delivered";
       order.items = order_items;
-      order.items.fullname = foundCart.items.item
+      order.items.fullname = foundCart.items.item.title + " "+foundCart.items.item.name;
       order.delivery_method = foundCart.delivery_cost;
       order.payment_method = req.body.payment_method === "maksu myymälään" ? req.body.payment_method : "klarna";
       order.paid = true;
@@ -643,6 +661,9 @@ module.exports.getConfirmation = (req, res, next) => {
                             foundProduct.stores.unshift(newStoreInfo);
                           }
                           foundProduct.times_sold = foundProduct.times_sold + 1;
+                          if(foundProduct.category === "Tulevat") {
+                            foundProduct.advance_bookers.push(foundUser);
+                          }
                           foundProduct.save((err, updatedProduct) => {
                             if(err) {
                               req.flash("error", err.message);

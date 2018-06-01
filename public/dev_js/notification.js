@@ -10,7 +10,7 @@
 					<a href="/admin/${newNotification.newContact === true ? 'asiakaspalvelu' : `/${newNotification._id}`}">
 						<div class="col-md-2">
 							<div class="media-left">
-								<img class="img-responsive" src="/images/notification.png">
+								<img class="img-responsive notificationImg" src="/images/notification.png">
 							</div>
 						</div>
 						<div class="col-md-7">

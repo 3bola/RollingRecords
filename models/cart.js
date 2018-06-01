@@ -24,6 +24,7 @@ const cartSchema = new Schema({
     coupon_id: {type: String, default: null},
     coupon_value:{ type: Number, default: null}
   },
+  delivery_store: {type: String},
   total_price: {type: Number, default: 0},
 	items: [
     {

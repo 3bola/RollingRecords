@@ -41,7 +41,10 @@
 				<hr>
 				<p>Kupongit</p>
 				<% found_user.bonus_system.coupons.forEach(function(coupon) { %>
-					<div class="well <%= coupon.valid ? 'success green' : 'danger red' %>"><p><%= coupon.valid ? 'Käytettävissä: ' : `Käytetty: ` %> <strong>1 kpl, Arvo: <%= coupon.value %>,00 €</strong></p></div>
+					<div class="well <%= coupon.valid ? 'success green' : 'danger red' %>"><p><%= coupon.valid ? 'Käytettävissä: ' : `Käytetty: ` %> <strong>1 kpl, Arvo: <%= coupon.value %>,00 €</strong></p> <form action="/admin/user/<%= user._id %>/coupon?_method=PATCH" method="POST">
+						<input type="hidden" name="coupon_id" value="<%= coupon._id %>">
+						<button class="btn btn-danger" type="submit">Poista kuponki</button>
+					</form></div>
 				<% }); %>
 				<hr>
 			</div>

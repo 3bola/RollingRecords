@@ -9,13 +9,13 @@
   </div>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2 col-sm-12">
-      <div class="col-md-4 col-sm-12">
+      <div class="col-md-5 col-sm-12">
         <% if(category !== "Oheistarvikkeet") { %>
         <div class="btn-group">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button type="button" class="btn btn-default dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Genret <span class="caret"></span>
           </button>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             <li><a href="/lp:t?category=<%= category %>&genre=Rock&page=1&&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>">Rock</a></li>
             <li><a href="/lp:t?category=<%= category %>&genre=Kotimainen&page=1&&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>">Kotimainen</a></li>
             <li><a href="/lp:t?category=<%= category %>&genre=Heavy-metal&page=1&&SortByPrice=<%= SortByPrice %>&SortByTitle=<%= SortByTitle %>&SortByCreatedAt=<%= SortByCreatedAt %>">Heavy & Metal</a></li>
@@ -33,24 +33,24 @@
         </div>
         <% } %>
         <div class="btn-group">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="dropdownMenu2" aria-haspopup="true" aria-expanded="false">
             Suodatus <span class="caret"></span>
           </button>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
             <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&SortByCreatedAt=-1">Uusimmat ensin</a></li>
             <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&SortByCreatedAt=1">Vanhimmat ensin</a></li>
             <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&SortByTitle=1">Aakkosittain Artistin mukaan A - Z</a></li>
             <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&SortByTitle=-1">Aakkosittain Artistin mukaan Z - A</a></li>
             <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&SortByPrice=-1">Kalleimmat ensin</a></li>
             <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&SortByPrice=1">Halvimmat ensin</a></li>
-            <li role="separator" class="divider"></li>
+         <!--    <li role="separator" class="divider"></li>
             <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&">Hintaväli 10€ - 30€</a></li>
             <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&">Hintaväli 30€ - 100€ </a></li>
-            <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&">Hintaväli 100€ ja yli</a></li>
+            <li><a href="/lp:t?category=<%= category %>&genre=<%= genre %>&page=1&">Hintaväli 100€ ja yli</a></li> -->
           </ul>
         </div>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-7">
         <form id="searchForm2" class="inline-form" action="/lp:t" method="GET">
           <div class="form-group col-md-10 col-sm-10 col-xs-10">
             <input type="search" class="form-control" name="search" placeholder="Hae levyjä..." id="searchTerm">
@@ -303,7 +303,7 @@
             <% } %>
           </ul>
         </div>
-      </nav>  
+      </nav>
     </div>
   </div>
 </div>

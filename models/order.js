@@ -41,6 +41,7 @@ const orderSchema = new Schema({
 	},
 	coupon_id: {type: String, default: null},
 	pickup_store : {type: String},
+	delivery_store: {type: String, default: "Tampere, Keskusta"},
 	stamps: {type: Number},
 	paid: {type: Boolean},
 	payment_method: {type: String, required: true},//Coupon, in store, klarna

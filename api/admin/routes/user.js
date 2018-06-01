@@ -17,6 +17,9 @@ router
 	.patch(adminAuthObj.isAdmin, adminAuthObj.checkUltimateAdminLevel, usersCtrl.editAdminAccess)
 	.delete(adminAuthObj.isAdmin, adminAuthObj.checkUltimateAdminLevel, profileCtrl.removeProfile);
 router
+	.route("/:id/coupon")
+	.patch(adminAuthObj.isAdmin, usersCtrl.removeCoupon);
+router
 	.route("/:id/order/:order_id")
 	.get(adminAuthObj.isAdmin, orderCtrl.showOrder)
 	.put(adminAuthObj.isAdmin, orderCtrl.markOrderAsDelivered)

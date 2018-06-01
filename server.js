@@ -67,7 +67,7 @@ app.use(function(req, res, next) {
   }
 });
 //Set up static folder
-app.use(express.static(path.join(__dirname + "/public")));
+app.use(express.static(path.join(__dirname + "/public"), {maxAge: 240000}));
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 //Setup app packages and middleware
 app.use(bodyParser.urlencoded({extended: false}));
@@ -242,7 +242,7 @@ app.use((req, res, next) => {
 	}
 });
 require("moment/min/locales.min");
-moment.locale('ru');
+moment.locale('fi');
 app.locals.moment = moment;
 //Local variables
 app.use(function(req, res, next) {

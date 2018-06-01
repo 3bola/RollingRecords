@@ -100,3 +100,23 @@ module.exports.updateStamps = (req, res, next) => {
 		}
 	});
 };
+// Remove coupons
+module.exports.removeCoupon = (req, res, next) => {
+	User.findById(req.params.id, (err, foundUser) => {
+		if(err || !foundUser) {
+			req.flash("error", "Käyttäjää ei voitu löytää.");
+			return res.redirect("/admin/user/"+foundUser.id);
+		} else {
+			foundUser.bonus_system.coupons.pull({_id: req.body.coupon_id});
+			foundUser.save((err, updatedUser) => {
+				if(err) {
+					req.flash("error",err.message);
+					return res.redirect("/admin/user/"+foundUser.id);
+				} else {
+					req.flash("success", "Onnistui! Kuponki on onnistuneesti poistettu!");
+					return res.redirect("/admin/user/"+foundUser.id);
+				}
+			});
+		}
+	});
+};

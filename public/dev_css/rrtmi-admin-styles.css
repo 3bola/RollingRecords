@@ -31,6 +31,9 @@ a:active {
 h3 {
   font-size: 22px;
 }
+.inline {
+  display: inline-block;
+}
 .green {
   background-color: lightgreen;
   border: 1px ridge green;
@@ -182,7 +185,7 @@ section #social-signin p {
   margin: 5px;
   background-color: #eeeeee;
 }
-.media img {
+.media img.notificationImg {
   width: 55px;
   height: 55px;
 }

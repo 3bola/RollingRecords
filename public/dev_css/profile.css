@@ -16,7 +16,7 @@ section {
 }
 @media screen and (max-width: 800px) {
 .grey-bag{
-height: inherit ;
+height: inherit;
 }
 }
 
@@ -38,4 +38,7 @@ margin-top: 5px;
 }
 #editUserInformationForm {
 	display: none;
+}
+.order-list-item:nth-child(2) {
+	background-color: #eeeeee;
 }

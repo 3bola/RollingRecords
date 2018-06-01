@@ -36,6 +36,10 @@ const ProductSchema = new Schema({
           location: String
         }
   ],
+  advance_bookers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }],
   total_quantity: Number,
   description: String,
   discountedPrice: Number,

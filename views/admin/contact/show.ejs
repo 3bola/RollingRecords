@@ -3,11 +3,51 @@
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<div class="page-header">
-				<h2>Yhteydenottopyyntö</h2>
+				<h2>Yhteydenottopyyntö | <%= contact.subject %></h2>
 			</div>
 		</div>
 	</div>
 	<div class="row">
-		
+		<div class="col-md-8 col-md-offset-2">
+			<div class="col-md-4">
+				<h4><i class="fa fa-address-card-o" aria-hidden="true"></i> <%= contact.fullname %></h4>
+				<p><i class="fa fa-envelope" aria-hidden="true"></i> <%= contact.email %></p>
+				<p><i class="fa fa-phone" aria-hidden="true"></i> <%= contact.phone %></p>
+			</div>
+			<div class="col-md-8">
+				<p>Viesti:</p>
+				<blockquote class="blockquote">
+  					<p class="mb-0"><%= contact.message %></p>
+  					<footer class="blockquote-footer"><i class="fa fa-clock-o fa-x2" aria-hidden="true"></i> <%= moment(contact.createdAt).calendar() %><cite title="Source Title"></cite></footer>
+				</blockquote>
+			</div>
+			<div class="col-md-12">
+				<h4>Vastaa:</h4>
+				<form action="/admin/asiakaspalvelu/<%= contact._id %>?_method=PUT" method="POST">
+					<div class="form-group">
+						<label for="reply-message">Vastausviesti: *</label>
+						<textarea rows="6" class="form-control" id="reply_message" name="reply-message"></textarea>
+					</div>
+					<button type="submit" class="btn btn-success">Vastaa</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<h4>Yhteydenottopyynnön hallinta</h4>
+			<div class="col-md-2">
+				<form action="/admin/asiakaspalvelu/<%= contact._id %>?_method=PATCH" method="POST">
+					<input type="hidden" name="status" value="done">
+					<button type="submit" class="btn btn-primary">Merkkaa käsitellyksi</button>
+				</form>
+			</div>
+			<div class="col-md-2">
+				<form class="inline" action="/admin/asiakaspalvelu/<%= contact._id %>?_method=DELETE" method="POST">
+					<button type="submit" class="btn btn-danger">Poista</button>
+				</form>
+			</div>
+		</div>
 	</div>
 </div>
