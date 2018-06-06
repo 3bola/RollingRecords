@@ -446,56 +446,94 @@ module.exports.postConfirmation = (req, res, next) => {
                           req.flash("error", "Ups! Valitettavasti tapahtui virhe ostoskorin tuotteita haettaessa.");
                           return res.redirect("/ostoskori"+req.params.id+"/maksu");
                         } else {
+                          var newStoreInfo = {};
+
+                          // Tuotteen kokonaismäärää vähennetään
                           foundProduct.total_quantity = Number(foundProduct.total_quantity) - Number(item.quantity);
-                          let newStoreInfo = {};
-                          if(foundProduct.stores.length > 1 && newOrder.pickup_store === "Helsinki, Sörnäinen") {
-                            var locationIndex;
-                            var removedLocation;
-                            locationIndex = foundProduct.stores.map(function(store) { return store.location; }).indexOf(newOrder.pickup_store);
-                            removedLocation = foundProduct.stores.splice(locationIndex, 1);
-                            newStoreInfo.location = removedLocation[0].location;
-                            newStoreInfo._id = removedLocation[0]._id;
-                            // if(Number(removedLocation[0].quantity) - Number(item.quantity) < 0) {
-                            //   newStoreInfo.quantity = 0;
-                            //   var remainder =  Number(item.quantity) - Number(removedLocation[0].quantity);
-                            //   foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
-                            //   var newStoreInfo2 = {};
-                            //   var locationIndex2 = foundProduct.stores.map(function(store) { return store.location; }).indexOf("Tampere, Keskusta");
-                            //   var removedLocation2 = foundProduct.stores.splice(locationIndex2, 1);
-                            //   newStoreInfo2.location = removedLocation2[0].location;
-                            //   newStoreInfo2._id = removedLocation2[0]._id;
-                            //   newStoreInfo.quantity = Number(removedLocation2[0].quantity) - remainder;
-                            //   foundProduct.stores.splice(locationIndex2, 0, newStoreInfo2);
-                            // }
-                            newStoreInfo.quantity = Number(removedLocation[0].quantity) - Number(item.quantity);
-                            foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
-                          } else if(foundProduct.stores.length > 1 && newOrder.pickup_store === "Tampere, Keskusta") {
-                            var locationIndex;
-                            var removedLocation;
-                            locationIndex = foundProduct.stores.map(function(store) { return store.location; }).indexOf(newOrder.pickup_store);
-                            removedLocation = foundProduct.stores.splice(locationIndex, 1);
-                            newStoreInfo.location = removedLocation[0].location;
-                            newStoreInfo._id = removedLocation[0]._id;
-                             if(Number(removedLocation[0].quantity) - Number(item.quantity) < 0) {
-                              newStoreInfo.quantity = 0;
-                              var remainder =  Number(item.quantity) - Number(removedLocation[0].quantity);
-                              foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
-                              var newStoreInfo2 = {};
-                              var locationIndex2 = foundProduct.stores.map(function(store) { return store.location; }).indexOf("Tampere, Keskusta");
-                              var removedLocation2 = foundProduct.stores.splice(locationIndex2, 1);
-                              newStoreInfo2.location = removedLocation2[0].location;
-                              newStoreInfo2._id = removedLocation2[0]._id;
-                              newStoreInfo.quantity = Number(removedLocation2[0].quantity) - remainder;
-                              foundProduct.stores.splice(locationIndex2, 0, newStoreInfo2);
+                          
+                          if (foundProduct.stores.length > 1) {
+                            // Tuotetta löytyy useista kaupoista
+                            if (newOrder.pickup_store === 'posti') {
+                              // Tuote halutaan postituksella
+                              // Etsitään tampereen kauppa
+                              var locationIndex;
+                              var removedLocation;
+                              locationIndex = foundProduct.stores.map(function(store) { return store.location; }).indexOf("Tampere, Keskusta");
+                              removedLocation = foundProduct.stores.splice(locationIndex, 1);
+                              newStoreInfo.location = removedLocation[0].location;
+                              newStoreInfo._id = removedLocation[0]._id;
+                              newStoreInfo.quantity = Number(removedLocation[0].quantity) - Number(item.quantity);
+                              if (newStoreInfo.quantity < 0) {
+                                // Tuotetta ei riittänyt ainoastaan Tampereelta!
+                                var quantityRemainder = Math.abs(newStoreInfo.quantity);
+                                newStoreInfo.quantity = 0;
+                                foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
+
+                                // Haetaan lisää tuotetta Sörnäisistä
+                                var otherStoreInfo = {};
+                                locationIndex = foundProduct.stores.map(function(store) { return store.location; }).indexOf("Helsinki, Sörnäinen");
+                                removedLocation = foundProduct.stores.splice(locationIndex, 1);
+                                otherStoreInfo.location = removedLocation[0].location;
+                                otherStoreInfo._id = removedLocation[0]._id;
+                                // ja vähennetään vain jäljelle jäänyt määrä
+                                otherStoreInfo.quantity = Number(removedLocation[0].quantity) - Number(quantityRemainder);
+
+                                // Tallennetaan uusi kaupan tieto
+                                foundProduct.stores.splice(locationIndex, 0, otherStoreInfo);
+
+                                // TODO: Pitääkö tästä lähettää sähköposti, tai ilmoitus että tuotetta pitää toimittaa Sörnäisistä myös?
+                              }
+                              else {
+                                // Tuotetta löytyy tarpeeksi kaupasta, tallennetaan kaupan tieto
+                                foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
+                              }
+                            } else {
+                              // Tuote halutaan noutaa kaupasta
+                              var locationIndex;
+                              var removedLocation;
+                              locationIndex = foundProduct.stores.map(function(store) { return store.location; }).indexOf(newOrder.pickup_store);
+                              removedLocation = foundProduct.stores.splice(locationIndex, 1);
+                              newStoreInfo.location = removedLocation[0].location;
+                              newStoreInfo._id = removedLocation[0]._id;
+                              newStoreInfo.quantity = Number(removedLocation[0].quantity) - Number(item.quantity);
+                              if (newStoreInfo.quantity < 0) {
+                                // Tuotetta ei löydy tarpeeksi noudettavasta kaupasta!
+                                var quantityRemainder = Math.abs(newStoreInfo.quantity);
+                                newStoreInfo.quantity = 0;
+                                foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
+
+                                // Määritellään toinen kauppa
+                                var nextShop = newOrder.pickup_store === 'Helsinki, Sörnäinen' ? 'Tampere, Keskusta' : 'Helsinki, Sörnäinen';
+
+                                // Haetaan lisää tuotetta toisesta kaupasta
+                                var otherStoreInfo = {};
+                                locationIndex = foundProduct.stores.map(function(store) { return store.location; }).indexOf(nextShop);
+                                removedLocation = foundProduct.stores.splice(locationIndex, 1);
+                                otherStoreInfo.location = removedLocation[0].location;
+                                otherStoreInfo._id = removedLocation[0]._id;
+                                
+                                // ja vähennetään vain jäljelle jäänyt määrä
+                                otherStoreInfo.quantity = Number(removedLocation[0].quantity) - Number(quantityRemainder);
+
+                                // Tallennetaan uusi kaupan tieto
+                                foundProduct.stores.splice(locationIndex, 0, otherStoreInfo);
+
+                                // TODO: Pitääkö tästä lähettää ilmoitus, että tuotetta pitää toimittaa toiseen kauppaan?
+                              }
+                              else {
+                                // Tuotetta löytyy tarpeeksi kaupasta, tallennetaan kaupan tieto
+                                foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
+                              }
                             }
-                            newStoreInfo.quantity = Number(removedLocation[0].quantity) - Number(item.quantity);
-                            foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
-                          } else if(foundProduct.stores.length === 1){
+                          }
+                          else if (foundProduct.stores.length === 1) {
+                            // Tuotetta on vain yhdessä kaupassa
                             var shiftedLocation = foundProduct.stores.shift(foundProduct.stores[0]);
                             newStoreInfo.location = shiftedLocation.location;
                             newStoreInfo.quantity = Number(shiftedLocation.quantity) - Number(item.quantity);
                             foundProduct.stores.unshift(newStoreInfo);
                           }
+
                           foundProduct.times_sold = foundProduct.times_sold + 1;
                           if(foundProduct.category === "Tulevat") {
                             foundProduct.advance_bookers.push(foundUser);
@@ -625,41 +663,95 @@ module.exports.getConfirmation = (req, res, next) => {
                           req.flash("error", "Ups! Valitettavasti tapahtui virhe ostoskorin tuotteita haettaessa.");
                           return res.redirect("/ostoskori/"+req.params.id+"/maksu");
                         } else {
+
+                          var newStoreInfo = {};
+
+                          // Tuotteen kokonaismäärää vähennetään
                           foundProduct.total_quantity = Number(foundProduct.total_quantity) - Number(item.quantity);
-                          let newStoreInfo = {};
-                          if(foundProduct.stores.length > 1 && newOrder.pickup_store === "Helsinki, Sörnäinen") {
-                            var locationIndex;
-                            var removedLocation;
-                            locationIndex = foundProduct.stores.map(function(store) { return store.location; }).indexOf(newOrder.pickup_store);
-                            removedLocation = foundProduct.stores.splice(locationIndex, 1);
-                            newStoreInfo.location = removedLocation[0].location;
-                            newStoreInfo._id = removedLocation[0]._id;
-                            newStoreInfo.quantity = Number(removedLocation[0].quantity) - Number(item.quantity);
-                            foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
-                          } else if(foundProduct.stores.length > 1 && newOrder.pickup_store === "Tampere, Keskusta") {
-                            var locationIndex;
-                            var removedLocation;
-                            locationIndex = foundProduct.stores.map(function(store) { return store.location; }).indexOf(newOrder.pickup_store);
-                            removedLocation = foundProduct.stores.splice(locationIndex, 1);
-                            newStoreInfo.location = removedLocation[0].location;
-                            newStoreInfo._id = removedLocation[0]._id;
-                            newStoreInfo.quantity = Number(removedLocation[0].quantity) - Number(item.quantity);
-                            foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
-                          } else if(foundProduct.stores.length > 1 && newOrder.pickup_store === "posti") {
-                            var locationIndex;
-                            var removedLocation;
-                            locationIndex = foundProduct.stores.map(function(store) { return store.location; }).indexOf("Tampere, Keskusta");
-                            removedLocation = foundProduct.stores.splice(locationIndex, 1);
-                            newStoreInfo.location = removedLocation[0].location;
-                            newStoreInfo._id = removedLocation[0]._id;
-                            newStoreInfo.quantity = Number(removedLocation[0].quantity) - Number(item.quantity);
-                            foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
-                          } else if(foundProduct.stores.length === 1){
+                          
+                          if (foundProduct.stores.length > 1) {
+                            // Tuotetta löytyy useista kaupoista
+                            if (newOrder.pickup_store === 'posti') {
+                              // Tuote halutaan postituksella
+                              // Etsitään tampereen kauppa
+                              var locationIndex;
+                              var removedLocation;
+                              locationIndex = foundProduct.stores.map(function(store) { return store.location; }).indexOf("Tampere, Keskusta");
+                              removedLocation = foundProduct.stores.splice(locationIndex, 1);
+                              newStoreInfo.location = removedLocation[0].location;
+                              newStoreInfo._id = removedLocation[0]._id;
+                              newStoreInfo.quantity = Number(removedLocation[0].quantity) - Number(item.quantity);
+                              if (newStoreInfo.quantity < 0) {
+                                // Tuotetta ei riittänyt ainoastaan Tampereelta!
+                                var quantityRemainder = Math.abs(newStoreInfo.quantity);
+                                newStoreInfo.quantity = 0;
+                                foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
+
+                                // Haetaan lisää tuotetta Sörnäisistä
+                                var otherStoreInfo = {};
+                                locationIndex = foundProduct.stores.map(function(store) { return store.location; }).indexOf("Helsinki, Sörnäinen");
+                                removedLocation = foundProduct.stores.splice(locationIndex, 1);
+                                otherStoreInfo.location = removedLocation[0].location;
+                                otherStoreInfo._id = removedLocation[0]._id;
+                                // ja vähennetään vain jäljelle jäänyt määrä
+                                otherStoreInfo.quantity = Number(removedLocation[0].quantity) - Number(quantityRemainder);
+
+                                // Tallennetaan uusi kaupan tieto
+                                foundProduct.stores.splice(locationIndex, 0, otherStoreInfo);
+
+                                // TODO: Pitääkö tästä lähettää sähköposti, tai ilmoitus että tuotetta pitää toimittaa Sörnäisistä myös?
+                              }
+                              else {
+                                // Tuotetta löytyy tarpeeksi kaupasta, tallennetaan kaupan tieto
+                                foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
+                              }
+                            } else {
+                              // Tuote halutaan noutaa kaupasta
+                              var locationIndex;
+                              var removedLocation;
+                              locationIndex = foundProduct.stores.map(function(store) { return store.location; }).indexOf(newOrder.pickup_store);
+                              removedLocation = foundProduct.stores.splice(locationIndex, 1);
+                              newStoreInfo.location = removedLocation[0].location;
+                              newStoreInfo._id = removedLocation[0]._id;
+                              newStoreInfo.quantity = Number(removedLocation[0].quantity) - Number(item.quantity);
+                              if (newStoreInfo.quantity < 0) {
+                                // Tuotetta ei löydy tarpeeksi noudettavasta kaupasta!
+                                var quantityRemainder = Math.abs(newStoreInfo.quantity);
+                                newStoreInfo.quantity = 0;
+                                foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
+
+                                // Määritellään toinen kauppa
+                                var nextShop = newOrder.pickup_store === 'Helsinki, Sörnäinen' ? 'Tampere, Keskusta' : 'Helsinki, Sörnäinen';
+
+                                // Haetaan lisää tuotetta toisesta kaupasta
+                                var otherStoreInfo = {};
+                                locationIndex = foundProduct.stores.map(function(store) { return store.location; }).indexOf(nextShop);
+                                removedLocation = foundProduct.stores.splice(locationIndex, 1);
+                                otherStoreInfo.location = removedLocation[0].location;
+                                otherStoreInfo._id = removedLocation[0]._id;
+                                
+                                // ja vähennetään vain jäljelle jäänyt määrä
+                                otherStoreInfo.quantity = Number(removedLocation[0].quantity) - Number(quantityRemainder);
+
+                                // Tallennetaan uusi kaupan tieto
+                                foundProduct.stores.splice(locationIndex, 0, otherStoreInfo);
+
+                                // TODO: Pitääkö tästä lähettää ilmoitus, että tuotetta pitää toimittaa toiseen kauppaan?
+                              }
+                              else {
+                                // Tuotetta löytyy tarpeeksi kaupasta, tallennetaan kaupan tieto
+                                foundProduct.stores.splice(locationIndex, 0, newStoreInfo);
+                              }
+                            }
+                          }
+                          else if (foundProduct.stores.length === 1) {
+                            // Tuotetta on vain yhdessä kaupassa
                             var shiftedLocation = foundProduct.stores.shift(foundProduct.stores[0]);
                             newStoreInfo.location = shiftedLocation.location;
                             newStoreInfo.quantity = Number(shiftedLocation.quantity) - Number(item.quantity);
                             foundProduct.stores.unshift(newStoreInfo);
                           }
+
                           foundProduct.times_sold = foundProduct.times_sold + 1;
                           if(foundProduct.category === "Tulevat") {
                             foundProduct.advance_bookers.push(foundUser);
